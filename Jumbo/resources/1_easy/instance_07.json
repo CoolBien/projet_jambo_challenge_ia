@@ -1,0 +1,286 @@
+{
+	"cut-width": 0,
+	"items": [
+		{
+			"id": 0,
+			"name": "name_0",
+			"size": {
+				"height": 234,
+				"width": 1827
+			},
+			"nb": 1
+		},
+		{
+			"id": 1,
+			"name": "name_1",
+			"size": {
+				"height": 914,
+				"width": 1979
+			},
+			"nb": 1
+		},
+		{
+			"id": 2,
+			"name": "name_2",
+			"size": {
+				"height": 914,
+				"width": 1979
+			},
+			"nb": 1
+		},
+		{
+			"id": 3,
+			"name": "name_3",
+			"size": {
+				"height": 733,
+				"width": 1583
+			},
+			"nb": 1
+		},
+		{
+			"id": 4,
+			"name": "name_4",
+			"size": {
+				"height": 673,
+				"width": 2156
+			},
+			"nb": 1
+		},
+		{
+			"id": 5,
+			"name": "name_5",
+			"size": {
+				"height": 500,
+				"width": 830
+			},
+			"nb": 1
+		},
+		{
+			"id": 6,
+			"name": "name_6",
+			"size": {
+				"height": 2298,
+				"width": 428
+			},
+			"nb": 1
+		},
+		{
+			"id": 7,
+			"name": "name_7",
+			"size": {
+				"height": 498,
+				"width": 1828
+			},
+			"nb": 1
+		},
+		{
+			"id": 8,
+			"name": "name_8",
+			"size": {
+				"height": 821,
+				"width": 1939
+			},
+			"nb": 1
+		},
+		{
+			"id": 9,
+			"name": "name_9",
+			"size": {
+				"height": 871,
+				"width": 368
+			},
+			"nb": 1
+		},
+		{
+			"id": 10,
+			"name": "name_10",
+			"size": {
+				"height": 847,
+				"width": 1366
+			},
+			"nb": 1
+		},
+		{
+			"id": 11,
+			"name": "name_11",
+			"size": {
+				"height": 805,
+				"width": 1524
+			},
+			"nb": 1
+		},
+		{
+			"id": 12,
+			"name": "name_12",
+			"size": {
+				"height": 805,
+				"width": 748
+			},
+			"nb": 1
+		},
+		{
+			"id": 13,
+			"name": "name_13",
+			"size": {
+				"height": 626,
+				"width": 753
+			},
+			"nb": 1
+		},
+		{
+			"id": 14,
+			"name": "name_14",
+			"size": {
+				"height": 602,
+				"width": 1468
+			},
+			"nb": 1
+		},
+		{
+			"id": 15,
+			"name": "name_15",
+			"size": {
+				"height": 319,
+				"width": 1535
+			},
+			"nb": 1
+		},
+		{
+			"id": 16,
+			"name": "name_16",
+			"size": {
+				"height": 319,
+				"width": 752
+			},
+			"nb": 1
+		},
+		{
+			"id": 17,
+			"name": "name_17",
+			"size": {
+				"height": 319,
+				"width": 1492
+			},
+			"nb": 1
+		},
+		{
+			"id": 18,
+			"name": "name_18",
+			"size": {
+				"height": 319,
+				"width": 753
+			},
+			"nb": 1
+		},
+		{
+			"id": 19,
+			"name": "name_19",
+			"size": {
+				"height": 869,
+				"width": 1689
+			},
+			"nb": 1
+		},
+		{
+			"id": 20,
+			"name": "name_20",
+			"size": {
+				"height": 816,
+				"width": 1827
+			},
+			"nb": 1
+		}
+	],
+	"jumbos": [
+		{
+			"id": 0,
+			"name": "jumbo_0",
+			"size": {
+				"height": 7205,
+				"width": 3913
+			},
+			"nb": 15
+		},
+		{
+			"id": 1,
+			"name": "jumbo_1",
+			"size": {
+				"height": 7456,
+				"width": 2960
+			},
+			"nb": 15
+		},
+		{
+			"id": 2,
+			"name": "jumbo_2",
+			"size": {
+				"height": 7720,
+				"width": 3626
+			},
+			"nb": 15
+		},
+		{
+			"id": 3,
+			"name": "jumbo_3",
+			"size": {
+				"height": 6277,
+				"width": 4051
+			},
+			"nb": 15
+		},
+		{
+			"id": 4,
+			"name": "jumbo_4",
+			"size": {
+				"height": 7360,
+				"width": 2354
+			},
+			"nb": 15
+		},
+		{
+			"id": 5,
+			"name": "jumbo_5",
+			"size": {
+				"height": 5600,
+				"width": 3610
+			},
+			"nb": 15
+		},
+		{
+			"id": 6,
+			"name": "jumbo_6",
+			"size": {
+				"height": 7791,
+				"width": 3777
+			},
+			"nb": 15
+		},
+		{
+			"id": 7,
+			"name": "jumbo_7",
+			"size": {
+				"height": 5803,
+				"width": 3924
+			},
+			"nb": 15
+		},
+		{
+			"id": 8,
+			"name": "jumbo_8",
+			"size": {
+				"height": 7664,
+				"width": 3289
+			},
+			"nb": 15
+		},
+		{
+			"id": 9,
+			"name": "jumbo_9",
+			"size": {
+				"height": 5407,
+				"width": 4098
+			},
+			"nb": 15
+		}
+	]
+}

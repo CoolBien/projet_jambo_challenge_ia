@@ -1,0 +1,142 @@
+{
+	"cut-width": 0,
+	"items": [
+		{
+			"id": 0,
+			"name": "name_0",
+			"size": {
+				"height": 1578,
+				"width": 758
+			},
+			"nb": 1
+		},
+		{
+			"id": 1,
+			"name": "name_1",
+			"size": {
+				"height": 738,
+				"width": 1550
+			},
+			"nb": 1
+		},
+		{
+			"id": 2,
+			"name": "name_2",
+			"size": {
+				"height": 581,
+				"width": 276
+			},
+			"nb": 1
+		},
+		{
+			"id": 3,
+			"name": "name_3",
+			"size": {
+				"height": 781,
+				"width": 1396
+			},
+			"nb": 1
+		},
+		{
+			"id": 4,
+			"name": "name_4",
+			"size": {
+				"height": 1426,
+				"width": 648
+			},
+			"nb": 1
+		}
+	],
+	"jumbos": [
+		{
+			"id": 0,
+			"name": "jumbo_0",
+			"size": {
+				"height": 5229,
+				"width": 2797
+			},
+			"nb": 15
+		},
+		{
+			"id": 1,
+			"name": "jumbo_1",
+			"size": {
+				"height": 4727,
+				"width": 4119
+			},
+			"nb": 15
+		},
+		{
+			"id": 2,
+			"name": "jumbo_2",
+			"size": {
+				"height": 6280,
+				"width": 2734
+			},
+			"nb": 15
+		},
+		{
+			"id": 3,
+			"name": "jumbo_3",
+			"size": {
+				"height": 5127,
+				"width": 3622
+			},
+			"nb": 15
+		},
+		{
+			"id": 4,
+			"name": "jumbo_4",
+			"size": {
+				"height": 5816,
+				"width": 2254
+			},
+			"nb": 15
+		},
+		{
+			"id": 5,
+			"name": "jumbo_5",
+			"size": {
+				"height": 4929,
+				"width": 3434
+			},
+			"nb": 15
+		},
+		{
+			"id": 6,
+			"name": "jumbo_6",
+			"size": {
+				"height": 6967,
+				"width": 3879
+			},
+			"nb": 15
+		},
+		{
+			"id": 7,
+			"name": "jumbo_7",
+			"size": {
+				"height": 5840,
+				"width": 3116
+			},
+			"nb": 15
+		},
+		{
+			"id": 8,
+			"name": "jumbo_8",
+			"size": {
+				"height": 5073,
+				"width": 3563
+			},
+			"nb": 15
+		},
+		{
+			"id": 9,
+			"name": "jumbo_9",
+			"size": {
+				"height": 6808,
+				"width": 3248
+			},
+			"nb": 15
+		}
+	]
+}
