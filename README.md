@@ -14,6 +14,7 @@ Class `JumboCuts` : // Liste de tout les `Cut`s d'un Jumbo.
  - `jumboId` = id du jumbo (utilisé pour l'exportation)
  - `cuts` = `[(VERTICAL, int), (HORIZONTAL, int), ...]`;    // `(VERTICAL, int)` est représenté par le record `Cut`, et l'orientation à l'intérieur par une valeur de l'énumération `CutOrientation`.
  - `cuttedResultSizes` = `[(int, int), (int, int), ...]`;   // (pour nous, pas dans le fichier de sortie).
+ - `scraps` = `[(int, int), (int, int), ...]`;  // liste des chutes
  - `itemIds` = liste id items; // TODO
 
 # Méthodes
