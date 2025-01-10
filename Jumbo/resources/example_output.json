@@ -1,0 +1,66 @@
+{
+	"op_list": [
+		{
+			"jumbo_id": 0,
+			"cut-tree": {
+				"dir-cut": "vertical",
+				"offset": 758,
+				"left": {
+					"dir-cut": "horizontal",
+					"offset": 1578,
+					"left": {
+						"item_id": 0
+					},
+					"right": {
+						"dir-cut": "vertical",
+						"offset": 738,
+						"left": {
+							"dir-cut": "horizontal",
+							"offset": 1550,
+							"left": {
+								"item_id": 1
+							},
+							"right": {
+								"dir-cut": "horizontal",
+								"offset": 581,
+								"left": {
+									"dir-cut": "vertical",
+									"offset": 1550,
+									"left": {
+										"item_id": 2
+									}
+								}
+							}
+						}
+					}
+				},
+				"right": {
+					"dir-cut": "vertical",
+					"offset": 1396,
+					"left": {
+						"dir-cut": "horizontal",
+						"offset": 781,
+						"left": {
+							"item_id": 3
+						}
+					},
+					"rigth": {
+						"item_id": -1
+					}
+				}
+			}
+		},
+		{
+			"jumbo_id": 1,
+			"cut-tree": {
+				"dir-cut": "vertical",
+				"offset": 320,
+				"left": {
+					"item_id": 4,
+					"dir-cut": "horizontal",
+					"offset": -1
+				}
+			}
+		}
+	]
+}
