@@ -14,6 +14,7 @@ Class `JumboCuts` : // Liste de tout les `Cut`s d'un Jumbo.
  - `jumboId` = id du jumbo (utilisé pour l'exportation)
  - `cuts` = `[(VERTICAL, int), (HORIZONTAL, int), ...]`;    // `(VERTICAL, int)` est représenté par le record `Cut`, et l'orientation à l'intérieur par une valeur de l'énumération `CutOrientation`.
  - `cuttedResultSizes` = `[(int, int), (int, int), ...]`;   // (pour nous, pas dans le fichier de sortie).
+ - `scraps` = `[(int, int), (int, int), ...]`;  // liste des chutes
  - `itemIds` = liste id items; // TODO
 
 # Méthodes
@@ -37,9 +38,11 @@ Fonction algo génétique (en paramètre instance et en sortie solution) pour fa
 
 ## Utils
 Fonction récuperer la taille de chute de chaque jumbo (en paramètre la solution et en sortie liste des chutes)
+
 Fonction recuperer items non pris (en paramètre solution et en sortie liste indice des items non pris)
 
 Fonction trouver le jumbo avec le plus de chute (en paramètre solution et en sortie indice/id jumbo)
+
 Fonction réorganiser dernier jumbo (en paramètre JumboCuts du dernier jumbo, nouveau JumboCuts)
 
 ## Résolution
