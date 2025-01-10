@@ -1,16 +1,14 @@
 package jumbo.data;
 
+import java.util.List;
+
 public class Solution {
 
 	private final Instance instance;
 
-	private final Cut[] cuts;
+	private List<JumboCut> jumboCuts;
 
-	private int[] cuttedResultSizes;
-
-	public Solution(final Instance instance, final Cut[] cuts) {
+	public Solution(final Instance instance) {
 		this.instance = instance;
-		this.cuts = cuts;
 	}
-
 }
