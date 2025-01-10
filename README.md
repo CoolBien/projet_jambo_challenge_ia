@@ -46,11 +46,9 @@ Fonction réorganiser dernier jumbo (en paramètre JumboCuts du dernier jumbo, n
 Fonction resoudre :
  - Fonction partitionning
  - Pour tout jumbo :
-    - Si pas premier jumbo, vérifier que ajout items toujours faisable
     - Fonction algo génétique
     - Fonction recuperer items non pris
-    - Si pas dernier jumbo, placer items dans prochain jumbo
-    - Si dernier jumbo, noter items restants
+    - Noter items restants
  - Retourne solution
 
 ## Algo:
