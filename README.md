@@ -37,9 +37,11 @@ Fonction algo génétique (en paramètre instance et en sortie solution) pour fa
 
 ## Utils
 Fonction récuperer la taille de chute de chaque jumbo (en paramètre la solution et en sortie liste des chutes)
+
 Fonction recuperer items non pris (en paramètre solution et en sortie liste indice des items non pris)
 
 Fonction trouver le jumbo avec le plus de chute (en paramètre solution et en sortie indice/id jumbo)
+
 Fonction réorganiser dernier jumbo (en paramètre JumboCuts du dernier jumbo, nouveau JumboCuts)
 
 ## Résolution
