@@ -17,4 +17,28 @@ public class JumboCut {
 	public int getJumboId() {
 		return jumboId;
 	}
+
+	public Cut[] getCuts() {
+		return cuts;
+	}
+
+	public int getLeftIdOf(final int i) {
+		final int id = ((i+1) << 1) - 1;
+		if (cuts[id] != null) {
+			return id;
+		}
+		return -1;
+	}
+
+	public int getRightIdOf(final int i) {
+		final int id = ((i+1) << 1);
+		if (cuts[id] != null) {
+			return id;
+		}
+		return -1;
+	}
+
+	public int getItemIdOf(final int i) {
+		return itemIds[i];
+	}
 }
