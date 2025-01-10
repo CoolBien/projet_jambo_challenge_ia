@@ -13,4 +13,5 @@ public class JumboCut {
 	public JumboCut(final Cut[] cuts) {
 		this.cuts = cuts;
 	}
+	
 }
