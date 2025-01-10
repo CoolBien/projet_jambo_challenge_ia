@@ -13,4 +13,8 @@ public class JumboCut {
 	public JumboCut(final Cut[] cuts) {
 		this.cuts = cuts;
 	}
+
+	public int getJumboId() {
+		return jumboId;
+	}
 }

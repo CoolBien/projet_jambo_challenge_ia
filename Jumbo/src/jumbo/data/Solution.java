@@ -11,4 +11,8 @@ public class Solution {
 	public Solution(final Instance instance) {
 		this.instance = instance;
 	}
+
+	public List<JumboCut> getJumboCuts() {
+		return jumboCuts;
+	}
 }
