@@ -1,16 +1,20 @@
 # Structuration
 
-Class `Instance` :
- - jumbos = `[(id, int, int), (id, int, int), ...]`
- - items = `[(id, int, int), (id, int, int), ...]`
+Class `Instance` : // chargée depuis un fichier
+ - `jumbos` = `[(id, int, int), (id, int, int), ...]`
+ - `items` = `[(id, int, int), (id, int, int), ...]`
+ - `jumbosIdToName` = map de jumbo id -> jumbo name;
+ - `itemsIdToName` = map de item id -> item name;
 
-Class `Solution` :
- - liste de `JumboCuts`
+Class `Solution` : // Créée à partir de l'algorithme
+ - `instance` = référence vers l'instance résolue;
+ - `jumboCuts` = liste de `JumboCuts`;
 
-Class `JumboCuts` :
- - decoupes = `[(VERTICAL, int), (HORIZONTAL, int),...]`
- - taille resultats decoupes = `[(int, int), (int, int), ...]`   // (pour nous, pas dans le fichier de sortie)
- - liste id items
+Class `JumboCuts` : // Liste de tout les `Cut`s d'un Jumbo.
+ - `jumboId` = id du jumbo (utilisé pour l'exportation)
+ - `cuts` = `[(VERTICAL, int), (HORIZONTAL, int), ...]`;    // `(VERTICAL, int)` est représenté par le record `Cut`, et l'orientation à l'intérieur par une valeur de l'énumération `CutOrientation`.
+ - `cuttedResultSizes` = `[(int, int), (int, int), ...]`;   // (pour nous, pas dans le fichier de sortie).
+ - `itemIds` = liste id items; // TODO
 
 # Méthodes
 
