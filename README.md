@@ -25,7 +25,7 @@ Fonction ecriture solution
 
 ## PPC
 Fonction partitionning avec PPC (en paramètre instance et en sortie liste indice/id des items pour chaque jumbo) pour reverifier apres ajout d'items non pris avant, recreer une instance intermediaire avec juste le jumbo et les items concernés
-Fonction possibilite avec PPC (en paramètre liste items et taille bloc qui les contient et en sortie booleen faisable ou non)
+Fonction possibilite avec PPC (en paramètre liste items et taille bloc qui les contient et en sortie l'indice de l'item mis ou null)
 
 ## Algo génétique
 Fonction algo génétique (en paramètre instance et en sortie solution) pour faire génétique sur chutes et items restants, refaire une instance avec en jumbo les chutes
