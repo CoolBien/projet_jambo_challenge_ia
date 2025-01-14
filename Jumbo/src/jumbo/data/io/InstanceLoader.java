@@ -1,4 +1,4 @@
-package jumbo.data;
+package jumbo.data.io;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,6 +12,8 @@ import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import jumbo.data.Instance;
 
 public class InstanceLoader {
 

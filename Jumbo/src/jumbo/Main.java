@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import jumbo.data.Instance;
-import jumbo.data.InstanceLoader;
+import jumbo.data.io.InstanceLoader;
 
 public class Main {
 

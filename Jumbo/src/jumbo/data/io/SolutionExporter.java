@@ -1,9 +1,13 @@
-package jumbo.data;
+package jumbo.data.io;
 
 import java.io.File;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import jumbo.data.Cut;
+import jumbo.data.JumboCut;
+import jumbo.data.Solution;
 
 public class SolutionExporter {
 
@@ -58,4 +62,3 @@ public class SolutionExporter {
 		return json;
 	}
 }
- 
