@@ -12,7 +12,7 @@ Class `Solution` : // Créée à partir de l'algorithme
 
 Class `JumboCuts` : // Liste de tout les `Cut`s d'un Jumbo.
  - `jumboId` = id du jumbo (utilisé pour l'exportation)
- - `cuts` = `BinartTree<(VERTICAL, int sizeX, int sizeY, int itemFlipCoding, int... itemIds), ...>`;    // Les items de l'arbre sont représentés par le record `Cut`, et l'orientation à l'intérieur par une valeur de l'énumération `CutOrientation`.
+ - `cuts` = `BinaryTree<(VERTICAL, int sizeX, int sizeY, int itemFlipCoding, int... itemIds), ...>`;    // Les items de l'arbre sont représentés par le record `Cut`, et l'orientation à l'intérieur par une valeur de l'énumération `CutOrientation`.
  - `cuttedResultSizes` = `[(int, int), (int, int), ...]`;   // (pour nous, pas dans le fichier de sortie).
  - `scraps` = `[(int, int), (int, int), ...]`;  // liste des chutes
  - `itemIds` = liste id items; // TODO
