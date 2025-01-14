@@ -9,6 +9,8 @@ public class JumboCut {
 	private int[] cuttedResultSizes;
 
 	private int[] itemIds;
+	
+	private int[] scraps;
 
 	public JumboCut(final Cut[] cuts) {
 		this.cuts = cuts;
@@ -40,5 +42,10 @@ public class JumboCut {
 
 	public int getItemIdOf(final int i) {
 		return itemIds[i];
+	}
+	
+	public int computeAreaWaste() {
+		return jumboId;
+
 	}
 }
