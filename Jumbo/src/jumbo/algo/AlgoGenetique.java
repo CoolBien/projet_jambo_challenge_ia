@@ -20,13 +20,13 @@ public class AlgoGenetique {
 		}
 	}
 
-	private void tournoi() {
-		// TODO
+	private void cross() {
+		// TODO Auto-generated method stub
 
 	}
 
-	private void cross() {
-		// TODO Auto-generated method stub
+	private void tournoi() {
+		// TODO
 
 	}
 
