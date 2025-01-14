@@ -40,7 +40,7 @@ public class SolutionExporter {
 		final JSONObject json = new JSONObject();
 		final Cut cut = node.getItem();
 		json.put("dir-cut", cut.orientation().name().toLowerCase());
-		json.put("offset", cut.computePosition());
+		json.put("offset", cut.computePosition(solution.getInstance()));
 
 		// get children
 		final BinaryTree<Cut> left = node.getLeft();

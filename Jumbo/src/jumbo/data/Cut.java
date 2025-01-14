@@ -14,5 +14,7 @@ public record Cut(CutOrientation orientation, int sizeX, int sizeY, int itemFlip
 		}
 		return positionCut;
 	}
+	
+	
 
 }
