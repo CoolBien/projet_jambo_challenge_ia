@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import jumbo.data.Cut;
 import jumbo.data.JumboCut;
 import jumbo.data.Solution;
+import jumbo.data.util.BinaryTree;
 
 public class SolutionExporter {
 
@@ -30,33 +31,33 @@ public class SolutionExporter {
 	private JSONObject exportJumboCut(final JumboCut jumboCut) {
 		final JSONObject json = new JSONObject();
 		json.put("jumbo_id", jumboCut.getJumboId());
-		json.put("cut-tree", exportCutTree(jumboCut, 0));
+		json.put("cut-tree", exportCutTree(jumboCut, jumboCut.getCuts()));
 		return json;
 	}
 
-	private JSONObject exportCutTree(final JumboCut jumboCut, final int i) {
+	private JSONObject exportCutTree(final JumboCut jumboCut, final BinaryTree<Cut> node) {
 		// save current cut
 		final JSONObject json = new JSONObject();
-		final Cut cut = jumboCut.getCuts()[i];
+		final Cut cut = node.getItem();
 		json.put("dir-cut", cut.orientation().name().toLowerCase());
-		json.put("offset", cut.position());
+		json.put("offset", cut.computePosition());
 
 		// get children
-		final int left = jumboCut.getLeftIdOf(i);
-		final int right = jumboCut.getRightIdOf(i);
+		final BinaryTree<Cut> left = node.getLeft();
+		final BinaryTree<Cut> right = node.getRight();
 
 		// recursive
-		if (left >= 0) {
+		if (left != null) {
 			json.put("left", exportCutTree(jumboCut, left));
 		}
-		if (right >= 0) {
+		if (right != null) {
 			json.put("right", exportCutTree(jumboCut, right));
 		}
 
 		// item ids:
-		final int itemId = jumboCut.getItemIdOf(i);
-		if (itemId >= 0) {
-			json.put("item_id", itemId);
+		final int[] itemId = cut.itemIds();
+		if (itemId.length == 1) {
+			json.put("item_id", itemId[0]);
 		}
 
 		return json;
