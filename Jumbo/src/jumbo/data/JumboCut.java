@@ -32,6 +32,5 @@ public class JumboCut {
 
 	public int computeAreaWaste() {
 		return jumboId;
-
 	}
 }
