@@ -57,18 +57,36 @@ public class BinaryTree<T> {
 
 		@Override
 		public boolean hasNext() {
-			return onLeft || (rightIter != null && rightIter.hasNext());
+			if (leftIter == null) {
+				// Si c'est une feuille:
+				if (rightIter == null && onLeft) {
+					return true;
+				}
+			} else if (leftIter.hasNext()) {
+				// Si il y a une suite à gauche
+				return true;
+			}
+			// Si il y a une suite à droite
+			return rightIter != null && rightIter.hasNext();
 		}
 
 		@Override
 		public T next() {
 			if (onLeft) {
-				if (leftIter == null || !leftIter.hasNext()) {
-					onLeft = false;
-					return item;
+				// Si on est sur une feuille, on renvoie l'item
+				if (leftIter == null) {
+					if (rightIter == null) {
+						onLeft = false;
+						return item;
+					}
+				} else if (leftIter.hasNext()) {
+					// Si on est pas sur une feuille, on renvoie le suivant sur l'arbre gauche si existant
+					return leftIter.next();
 				}
-				return leftIter.next();
+				onLeft = false;
 			}
+			// Théoriquement, si on est une feuille on ne peux jamais arriver ici
+			// Et comme on est pas à gauche, on est à droite et on a théoriquement une valeur aussi
 			return rightIter.next();
 		}
 
