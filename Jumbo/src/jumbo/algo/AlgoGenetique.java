@@ -12,6 +12,7 @@ public class AlgoGenetique {
 
 	public void run(final int n) {
 		// TODO : init
+		
 
 		for (int i=0; i<n; i++) {
 			cross();
@@ -32,6 +33,15 @@ public class AlgoGenetique {
 
 	private void mutate() {
 		// TODO Auto-generated method stub
+		
+		for (int i = 0; i < population.length; i++) {
+			JumboCut individu = population[i];
 
+			int randomChangeItem = 0 + (int)(Math.random() * 100);
+			if (randomChangeItem <= 30) {
+				int randomBitFlip = 0 + (int)(Math.random() * individu.getItemIdOf(i));
+				individu.getItemIdOf(randomBitFlip);
+			}
+		}
 	}
 }
