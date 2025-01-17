@@ -19,12 +19,12 @@ Class `JumboCuts` : // Arbre des `Cut`s d'un Jumbo.
  - `itemIds` = liste id items; // TODO
 
 Class `Cut` : // Records des attributs d'un noeud de l'arbre cuts. 
- - `orientation` = orientation du cut
- - `sizeX` = longueur horizontale du sous-jumbo sur lequel on effectue la découpe;
- - `sizeY` = hauteur verticale du sous-jumbo sur lequel on effectue la découpe;
+ - `orientation` = orientation du cut; `enum CutOrientation : (HORIZONTAL, VERTICAL)`
+ - `sizeX` = longueur horizontale du sous-jumbo sur lequel on effectue la découpe; `int` 
+ - `sizeY` = hauteur verticale du sous-jumbo sur lequel on effectue la découpe; `int`
  - `itemFlipCoding` = Chaque bits du nombre binaire correspond à un item de la liste des items présents sur ce cut. Si le bit vaut 1, on retourne de 90° l'item, et s'il vaut 0 on n'y touche pas.
-   exemple : `101001` = liste de 6 items, et on ne retourne que le 1er, le 4e et le 6e. 
- - `itemIds` = Liste des ids des items présents dans cette cut.
+   exemple : `101001` = liste de 6 items, et on ne retourne que le 1er, le 4e et le 6e. `int`
+ - `itemIds` = Liste des ids des items présents dans cette cut. `Liste de int`
 
 # Méthodes
 
