@@ -1,6 +1,6 @@
 package jumbo.data;
 
-import jumbo.data.util.BinaryTree;
+import jumbo.utils.BinaryTree;
 
 public class JumboCut {
 
@@ -8,11 +8,11 @@ public class JumboCut {
 
 	private final BinaryTree<Cut> cuts;
 
-	private int[] cuttedResultSizes;
-
-	private int[] itemIds;
-
-	private int[] scraps;
+//	private int[] cuttedResultSizes;
+//
+//	private int[] itemIds;
+//
+//	private int[] scraps;
 
 	public JumboCut(final BinaryTree<Cut> cuts) {
 		this.cuts = cuts;
@@ -26,11 +26,17 @@ public class JumboCut {
 		return cuts;
 	}
 
-	public int getItemIdOf(final int i) {
-		return itemIds[i];
-	}
+	public int computeAreaWaste(final Instance instance) {
+		final int jumboSize = instance.getJumboSize(jumboId);
+		int itemSize = 0;
 
-	public int computeAreaWaste() {
-		return jumboId;
+		// Parcourir uniquement les feuilles de l'arbre pour savoir les items qui sont dedans.
+		for (final Cut c: cuts.traverseLeaves()) {
+			for (final int itemId : c.itemIds()) {
+				itemSize += instance.getItemArea(itemId);
+			}
+		}
+
+		return jumboSize - itemSize;
 	}
 }

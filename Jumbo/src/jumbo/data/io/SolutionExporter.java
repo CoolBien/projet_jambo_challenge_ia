@@ -8,7 +8,7 @@ import org.json.JSONObject;
 import jumbo.data.Cut;
 import jumbo.data.JumboCut;
 import jumbo.data.Solution;
-import jumbo.data.util.BinaryTree;
+import jumbo.utils.BinaryTree;
 
 public class SolutionExporter {
 
