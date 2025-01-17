@@ -89,6 +89,5 @@ public class BinaryTree<T> {
 			// Et comme on est pas à gauche, on est à droite et on a théoriquement une valeur aussi
 			return rightIter.next();
 		}
-
 	}
 }
