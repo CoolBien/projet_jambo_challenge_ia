@@ -14,15 +14,18 @@ public class AlgoGenetique {
 	private final Instance instance;
 
 	/** Population de l'algorithme */
-	private final JumboCut[] population;
+	private final JumboCut[] smallPopulation;
 
 	/** Utilisé pour le résultat du croisement et l'entrée du tournoi. */
 	private final JumboCut[] largePopulation;
 
 	public AlgoGenetique(final Instance instance, final int size) {
 		this.instance = instance;
-		population = new JumboCut[size];
+		smallPopulation = new JumboCut[size];
 		largePopulation = new JumboCut[size << 1];
+	}
+
+	public void initPopulation() {
 	}
 
 	public BinaryTree<Cut> init(final int sizeX, final int sizeY, final List<Integer> itemIdsToAdd) {
@@ -107,7 +110,7 @@ public class AlgoGenetique {
 	/**
 	 * Croisement
 	 * <p>
-	 * Input from {@link #population}
+	 * Input from {@link #smallPopulation}
 	 * <p>
 	 * Output to {@link #largePopulation}
 	 */
@@ -121,7 +124,7 @@ public class AlgoGenetique {
 	 * <p>
 	 * Input from {@link #largePopulation}
 	 * <p>
-	 * Output to {@link #population}
+	 * Output to {@link #smallPopulation}
 	 */
 	private void tournoi() {
 		final int[] score = new int[largePopulation.length];
@@ -135,10 +138,10 @@ public class AlgoGenetique {
 			final double random = Math.random() * (scoreA + scoreB);
 			if (random < scoreA) {
 				// A gagne
-				population[i >>> 1] = largePopulation[i];
+				smallPopulation[i >>> 1] = largePopulation[i];
 			} else {
 				// B gagne
-				population[i >>> 1] = largePopulation[i+1];
+				smallPopulation[i >>> 1] = largePopulation[i+1];
 			}
 		}
 	}
@@ -167,14 +170,14 @@ public class AlgoGenetique {
 	/**
 	 * Mutation
 	 * <p>
-	 * Input from {@link #population}
+	 * Input from {@link #smallPopulation}
 	 * <p>
-	 * Output to {@link #population} as well
+	 * Output to {@link #smallPopulation} as well
 	 */
 	private void mutation() {
 		// TODO Auto-generated method stub
-		for (int i = 0; i < population.length; i++) {
-			final JumboCut individu = population[i];
+		for (int i = 0; i < smallPopulation.length; i++) {
+			final JumboCut individu = smallPopulation[i];
 			exploreTreeNode(individu.getCuts());
 		}
 	}
