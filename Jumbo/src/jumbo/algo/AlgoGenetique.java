@@ -24,40 +24,73 @@ public class AlgoGenetique {
 		population = new JumboCut[size];
 		largePopulation = new JumboCut[size << 1];
 	}
-	
-	public BinaryTree<Cut> init(final int sizeX, final int sizeY, List<Integer> itemIds) {
-		List<Integer> itemsChosenLeft = new ArrayList<>(); //
-		List<Integer> itemsChosenRight = new ArrayList<>(); //
-		
+
+	public BinaryTree<Cut> init(final int sizeX, final int sizeY, final List<Integer> itemIdsToAdd) {
+		final List<Integer> chosenItems = new ArrayList<>(); //
+
 		// Choisir l'orientation de coupage
-		CutOrientation orientation;
+		final CutOrientation orientation;
+		final int maxTall;
+		final int maxWide;
 		if (Math.random() < .5) {
-			orientation = CutOrientation.HORIZONTAL; 
+			orientation = CutOrientation.HORIZONTAL;
+			maxTall = sizeX;
+			maxWide = sizeY;
 		} else {
-			orientation = CutOrientation.VERTICAL; 
+			orientation = CutOrientation.VERTICAL;
+			maxTall = sizeY;
+			maxWide = sizeX;
 		}
-		
-		//int randomSizeItemsChosen = 0 + (int)(Math.random() * itemIds.length);
+
 		int itemFlipCoding = 0;
-		
-		for (int i=0; i < itemIds.size(); i++) {
-			// On ignore certains items aléatoirement:
-			if (Math.random() < .5) {
-				itemsChosenRight.add(itemIds.get(i));
-				continue; //On passe à l'itération suivante de la boucle et on skippe les étapes suivantes
+		int cutPos = 0;
+
+		for (int i=0; i<itemIdsToAdd.size(); i++) {
+			if (chosenItems.size() > 2 && Math.random() < .25) continue;
+
+			// On check l'item
+			final int itemId = itemIdsToAdd.get(i);
+			final int itemWidth = instance.getItemWidth(itemId);
+			final int itemHeight = instance.getItemHeigth(itemId);
+			final boolean normalPossible = cutPos + itemWidth < maxWide && itemHeight < maxTall;
+			final boolean flippedPossible = cutPos + itemHeight < maxWide && itemWidth < maxTall;
+			if (!normalPossible && !flippedPossible) continue;
+
+			// On choisi le sens de l'item
+			boolean flippedChosen = false;
+			if (normalPossible && flippedPossible) flippedChosen = Math.random() < .5f;
+			else if (!normalPossible) flippedChosen = true;
+
+			// On ajoute l'item dans le bon sens
+			if (flippedChosen) {
+				cutPos += itemWidth;
+				itemFlipCoding |= 1 << chosenItems.size();
+			} else {
+				cutPos += itemHeight;
 			}
-			itemsChosenLeft.add(itemIds.get(i));
-			if (Math.random() < .5) {
-				itemFlipCoding |=  (1 << i) ; //On flippe le ième bit à 1
-			}
+			chosenItems.add(itemId);
 		}
-		Cut cut = new Cut(orientation, sizeX, sizeY, itemFlipCoding, itemsChosenLeft.stream().mapToInt(i -> i).toArray()); // Ne pas trop chercher
-		final BinaryTree<Cut> itemDisposition = new BinaryTree<>(cut);
-		itemDisposition.setLeft(init(sizeX, sizeY, itemIds));
-		itemDisposition.setRight(null);
-		
-		return itemDisposition;
-//		taille sous_jumbo, liste des items, 
+
+		// On construit le nœud de l'arbre
+		final BinaryTree<Cut> node = new BinaryTree<>(new Cut(orientation, sizeX, sizeY, itemFlipCoding, chosenItems.stream().mapToInt(i -> i).toArray()));
+
+		if (chosenItems.size() == 1) {
+			itemIdsToAdd.remove(chosenItems.get(0));
+			return node;
+		}
+		if (chosenItems.isEmpty()) {
+			return node;
+		}
+
+		if (orientation == CutOrientation.VERTICAL) {
+			node.setLeft(init(cutPos, sizeY, itemIdsToAdd));
+			node.setRight(init(sizeX - cutPos, sizeY, itemIdsToAdd));
+		} else {
+			node.setLeft(init(sizeX, cutPos, itemIdsToAdd));
+			node.setRight(init(sizeX, sizeY - cutPos, itemIdsToAdd));
+		}
+
+		return node;
 	}
 
 	public void run(final int n) {
@@ -127,7 +160,7 @@ public class AlgoGenetique {
 				//int randomBitFlip = 0 + (int)(Math.random() * individu[i]);
 				//individu.getItemIdOf(randomBitFlip);
 			}
-			
+
 		}
 	}
 }
