@@ -65,9 +65,9 @@ public class AlgoGenetique {
 
 
 		for (int i=0; i<n; i++) {
-			cross();
 			tournoi();
-			mutate();
+			cross();
+			mutation();
 		}
 	}
 
@@ -109,6 +109,27 @@ public class AlgoGenetique {
 			}
 		}
 	}
+	
+	private void mutateNode(final BinaryTree<Cut> Node) {
+		//return init(Node);
+	}
+	
+	
+	private void explore_tree_node(final BinaryTree<Cut> Node) {
+
+		final int randomChangeItem = 0 + (int)(Math.random() * 100);
+		if (randomChangeItem <= 5) {
+			mutateNode(Node);
+		}
+		
+		if (Node.getLeft() != null) {
+			explore_tree_node(Node.getLeft());
+		}
+		if (Node.getRight() != null) {
+			explore_tree_node(Node.getRight());
+		}	
+		
+	}
 
 	/**
 	 * Mutation
@@ -117,17 +138,11 @@ public class AlgoGenetique {
 	 * <p>
 	 * Output to {@link #population} as well
 	 */
-	private void mutate() {
+	private void mutation() {
 		// TODO Auto-generated method stub
 		for (int i = 0; i < population.length; i++) {
 			final JumboCut individu = population[i];
-
-			final int randomChangeItem = 0 + (int)(Math.random() * 100);
-			if (randomChangeItem <= 30) {
-				//int randomBitFlip = 0 + (int)(Math.random() * individu[i]);
-				//individu.getItemIdOf(randomBitFlip);
-			}
-			
+			explore_tree_node(individu.getCuts());
 		}
 	}
 }
