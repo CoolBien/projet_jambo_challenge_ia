@@ -1,6 +1,7 @@
 package jumbo.algo;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 import jumbo.data.Cut;
 import jumbo.data.CutOrientation;
@@ -143,25 +144,34 @@ public class AlgoGenetique {
 		}
 	}
 
-	private void mutateNode(final BinaryTree<Cut> node) {
-		//return init(Node);
+	private BinaryTree<Cut> mutateNode(final BinaryTree<Cut> node) {
+		Cut item = node.getItem();
+		BinaryTree<Cut> newNode = init(
+			item.sizeX(),
+			item.sizeY(),
+			StreamSupport.stream(node.traverseLeaves().spliterator(), /*parallel=*/false)
+			.filter(e -> e.itemIds().length == 1)
+			.map(e -> e.itemIds()[0])
+			.toList());
+
+		return newNode;
 	}
 
 
-	private void exploreTreeNode(final BinaryTree<Cut> node) {
+	private BinaryTree<Cut> exploreTreeNode(final BinaryTree<Cut> node) {
 
 		final int randomChangeItem = 0 + (int)(Math.random() * 100);
 		if (randomChangeItem <= 5) {
-			mutateNode(node);
+			return mutateNode(node);
 		}
 
 		if (node.getLeft() != null) {
-			exploreTreeNode(node.getLeft());
+			node.setLeft(exploreTreeNode(node.getLeft()));
 		}
 		if (node.getRight() != null) {
-			exploreTreeNode(node.getRight());
+			node.setRight(exploreTreeNode(node.getRight()));
 		}
-
+		return node;
 	}
 
 	/**
