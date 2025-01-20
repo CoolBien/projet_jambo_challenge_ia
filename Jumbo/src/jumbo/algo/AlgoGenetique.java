@@ -146,6 +146,7 @@ public class AlgoGenetique {
 
 	private BinaryTree<Cut> mutateNode(final BinaryTree<Cut> node) {
 		Cut item = node.getItem();
+
 		BinaryTree<Cut> newNode = init(
 			item.sizeX(),
 			item.sizeY(),
