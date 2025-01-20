@@ -4,7 +4,7 @@ import jumbo.utils.BinaryTree;
 
 public class JumboCut {
 
-	private int jumboId;
+	private final int jumboId;
 
 	private final BinaryTree<Cut> cuts;
 
@@ -14,7 +14,8 @@ public class JumboCut {
 //
 //	private int[] scraps;
 
-	public JumboCut(final BinaryTree<Cut> cuts) {
+	public JumboCut(final int jumboId, final BinaryTree<Cut> cuts) {
+		this.jumboId = jumboId;
 		this.cuts = cuts;
 	}
 
@@ -38,5 +39,9 @@ public class JumboCut {
 		}
 
 		return jumboSize - itemSize;
+	}
+
+	public JumboCut copy() {
+		return new JumboCut(jumboId, cuts.copy());
 	}
 }

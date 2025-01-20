@@ -90,4 +90,10 @@ public class BinaryTree<T> {
 			return rightIter.next();
 		}
 	}
+
+	public BinaryTree<T> copy() {
+		final BinaryTree<T> leftCopy  = left  != null? left .copy(): null;
+		final BinaryTree<T> rightCopy = right != null? right.copy(): null;
+		return new BinaryTree<>(item, leftCopy, rightCopy);
+	}
 }

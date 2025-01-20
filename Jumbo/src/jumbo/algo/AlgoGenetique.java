@@ -43,7 +43,7 @@ public class AlgoGenetique {
 		final int jumboHeight = instance.getJumboHeight(jumboId);
 
 		for (int i=0; i < largePopulation.length; i++) {
-			largePopulation[i] = new JumboCut(initTree(jumboWidth, jumboHeight, itemIdsToAdd));
+			largePopulation[i] = new JumboCut(jumboId, initTree(jumboWidth, jumboHeight, itemIdsToAdd));
 		}
 	}
 
@@ -68,7 +68,7 @@ public class AlgoGenetique {
 		int cutPos = 0;
 
 		for (int i=0; i<itemIdsToAdd.size(); i++) {
-			if (chosenItems.size() > 2 && Math.random() < .25) continue;
+			if (chosenItems.size() > 1 && Math.random() < .25) continue;
 
 			// On check l'item
 			final int itemId = itemIdsToAdd.get(i);
@@ -121,21 +121,23 @@ public class AlgoGenetique {
 
 		for (int i=0; i<n; i++) {
 			tournoi();
-			cross();
+			parthenogenesis();
 			mutation();
 		}
 	}
 
 	/**
-	 * Croisement
+	 * Parthénogenèse de la méduse
 	 * <p>
 	 * Input from {@link #smallPopulation}
 	 * <p>
 	 * Output to {@link #largePopulation}
 	 */
-	private void cross() {
-		// TODO Auto-generated method stub
-
+	private void parthenogenesis() {
+		for (int i = 0; i < smallPopulation.length; i ++) {
+			largePopulation[ i << 1     ] = smallPopulation[i];
+			largePopulation[(i << 1) | 1] = smallPopulation[i].copy();
+		}
 	}
 
 	/**
