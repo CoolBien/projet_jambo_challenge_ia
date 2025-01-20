@@ -20,16 +20,34 @@ public class AlgoGenetique {
 	/** Utilisé pour le résultat du croisement et l'entrée du tournoi. */
 	private final JumboCut[] largePopulation;
 
-	public AlgoGenetique(final Instance instance, final int size) {
+	/** Id du jumbo associé à cette instance de l'algo génétique. */
+	private final int jumboId;
+
+	private final List<Integer> itemIdsToAdd;
+
+	public AlgoGenetique(final Instance instance, final int size, final int jumboId, final List<Integer> itemIdsToAdd) {
 		this.instance = instance;
+		this.jumboId = jumboId;
 		smallPopulation = new JumboCut[size];
 		largePopulation = new JumboCut[size << 1];
+		this.itemIdsToAdd = itemIdsToAdd;
 	}
 
-	public void initPopulation() {
+	/**
+	 * Initialise la population dans {@link #largePopulation}
+	 */
+	private void initPopulation() {
+
+		// Get recurrent data
+		final int jumboWidth = instance.getJumboWidth(jumboId);
+		final int jumboHeight = instance.getJumboHeight(jumboId);
+
+		for (int i=0; i < largePopulation.length; i++) {
+			largePopulation[i] = new JumboCut(initTree(jumboWidth, jumboHeight, itemIdsToAdd));
+		}
 	}
 
-	public BinaryTree<Cut> init(final int sizeX, final int sizeY, final List<Integer> itemIdsToAdd) {
+	private BinaryTree<Cut> initTree(final int sizeX, final int sizeY, final List<Integer> itemIdsToAdd) {
 		final List<Integer> chosenItems = new ArrayList<>(); //
 
 		// Choisir l'orientation de coupage
@@ -87,19 +105,19 @@ public class AlgoGenetique {
 		}
 
 		if (orientation == CutOrientation.VERTICAL) {
-			node.setLeft(init(cutPos, sizeY, itemIdsToAdd));
-			node.setRight(init(sizeX - cutPos, sizeY, itemIdsToAdd));
+			node.setLeft(initTree(cutPos, sizeY, itemIdsToAdd));
+			node.setRight(initTree(sizeX - cutPos, sizeY, itemIdsToAdd));
 		} else {
-			node.setLeft(init(sizeX, cutPos, itemIdsToAdd));
-			node.setRight(init(sizeX, sizeY - cutPos, itemIdsToAdd));
+			node.setLeft(initTree(sizeX, cutPos, itemIdsToAdd));
+			node.setRight(initTree(sizeX, sizeY - cutPos, itemIdsToAdd));
 		}
 
 		return node;
 	}
 
 	public void run(final int n) {
-		// TODO : init
-
+		// init:
+		initPopulation();
 
 		for (int i=0; i<n; i++) {
 			tournoi();
@@ -148,17 +166,15 @@ public class AlgoGenetique {
 	}
 
 	private BinaryTree<Cut> mutateNode(final BinaryTree<Cut> node) {
-		Cut item = node.getItem();
+		final Cut item = node.getItem();
 
-		BinaryTree<Cut> newNode = init(
+		return initTree(
 			item.sizeX(),
 			item.sizeY(),
 			StreamSupport.stream(node.traverseLeaves().spliterator(), /*parallel=*/false)
 			.filter(e -> e.itemIds().length == 1)
 			.map(e -> e.itemIds()[0])
 			.toList());
-
-		return newNode;
 	}
 
 

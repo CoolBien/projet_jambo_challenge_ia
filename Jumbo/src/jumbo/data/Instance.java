@@ -70,6 +70,14 @@ public class Instance {
 		return maxSize;
 	}
 
+	public int getJumboWidth(final int jumboId) {
+		return jumbos[jumboId * 3 + 1];
+	}
+
+	public int getJumboHeight(final int jumboId) {
+		return jumbos[jumboId * 3 + 2];
+	}
+
 	public int getJumboSize(final int jumboId) {
 		return jumbos[jumboId * 3 + 1] * jumbos[jumboId * 3 + 2];
 	}
