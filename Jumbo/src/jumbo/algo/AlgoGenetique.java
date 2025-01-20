@@ -135,7 +135,7 @@ public class AlgoGenetique {
 	 */
 	private void cross() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	/**
