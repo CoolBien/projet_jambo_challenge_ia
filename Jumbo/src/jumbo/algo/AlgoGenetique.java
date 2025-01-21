@@ -1,6 +1,7 @@
 package jumbo.algo;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import jumbo.data.Cut;
@@ -26,12 +27,15 @@ public class AlgoGenetique {
 
 	private final List<Integer> itemIdsToAdd;
 
+	private final boolean isEmpty;
+
 	public AlgoGenetique(final Instance instance, final int size, final int jumboId, final List<Integer> itemIdsToAdd) {
 		this.instance = instance;
 		this.jumboId = jumboId;
 		smallPopulation = new JumboCut[size];
 		largePopulation = new JumboCut[size << 1];
 		this.itemIdsToAdd = new ArrayList<>(itemIdsToAdd);	// Make a copy to be sure that it is a mutable list.
+		isEmpty = itemIdsToAdd.isEmpty();
 	}
 
 	/**
@@ -120,11 +124,18 @@ public class AlgoGenetique {
 		// init:
 		initPopulation();
 
+		if (isEmpty) {
+			System.out.println("THREAD "+jumboId+" DONE (EMPTY)");
+			return;
+		}
+
 		for (int i=0; i<n; i++) {
+			System.out.println("THREAD "+jumboId+" ITERATION "+(i+1)+"/"+n);
 			tournoi();
 			parthenogenesis();
 			mutation();
 		}
+		System.out.println("THREAD "+jumboId+" DONE");
 	}
 
 	/**
@@ -178,7 +189,7 @@ public class AlgoGenetique {
 			StreamSupport.stream(node.traverseLeaves().spliterator(), /*parallel=*/false)
 			.filter(e -> e.itemIds().length == 1)
 			.map(e -> e.itemIds()[0])
-			.toList());
+			.collect(Collectors.toCollection(ArrayList::new)));
 	}
 
 

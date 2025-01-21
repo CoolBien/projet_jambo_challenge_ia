@@ -60,6 +60,15 @@ public class Instance {
 		return items[itemId * 3 + 1] * items[itemId * 3 + 2];
 	}
 
+	/**
+	 * Convert from internal jumbo id to problem instance jumbo id
+	 * @param jumboId
+	 * @return
+	 */
+	public int getJumboId(final int jumboId) {
+		return jumbos[jumboId * 3];
+	}
+
 	public int getJumboWidth(final int jumboId) {
 		return jumbos[jumboId * 3 + 1];
 	}

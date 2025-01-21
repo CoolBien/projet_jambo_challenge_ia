@@ -36,7 +36,7 @@ public class SolutionExporter {
 
 	private JSONObject exportJumboCut(final JumboCut jumboCut) {
 		final JSONObject json = new JSONObject();
-		json.put("jumbo_id", jumboCut.getJumboId());
+		json.put("jumbo_id", solution.getInstance().getJumboId(jumboCut.getJumboId()));
 		json.put("cut-tree", exportCutTree(jumboCut, jumboCut.getCuts()));
 		return json;
 	}

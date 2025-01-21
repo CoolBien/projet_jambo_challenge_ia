@@ -15,11 +15,15 @@ public class Main {
 		System.out.println("Hello world!");
 
 		final Instance instance = new InstanceLoader(new File("resources/1_easy/instance_01.json")).parse();
+//		final Instance instance = new InstanceLoader(new File("resources/2_hard/instance_21.json")).parse();
 
+		System.out.println("Nombre d'items initial:   "+instance.getItems().length/3);
+		System.out.println("Nombre de jumbos initial: "+instance.getJumbos().length/3);
 //		int[][] indexItems = new AlgoPPC(instance).partitionning();
 
 		System.out.println(instance);
 
 		new SolutionExporter(new MainAlgorithm(instance).run()).export(new File("output_test.json"));
+		System.out.println("Done");
 	}
 }
