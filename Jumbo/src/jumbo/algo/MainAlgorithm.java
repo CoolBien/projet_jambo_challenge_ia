@@ -15,7 +15,7 @@ public class MainAlgorithm {
 		this.instance = instance;
 	}
 
-	public Solution run() {
+	public Solution run() throws InterruptedException {
 
 		// PPC pour récupérer partitioning:
 		final AlgoPPC ppc = new AlgoPPC(instance);

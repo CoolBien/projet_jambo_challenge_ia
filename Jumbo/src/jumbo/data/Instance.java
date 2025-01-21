@@ -52,22 +52,12 @@ public class Instance {
 		return items[elem * 3 + 1];
 	}
 
-	public int getItemHeigth(final int elem) {
+	public int getItemHeight(final int elem) {
 		return items[elem * 3 + 2];
 	}
 
 	public int getItemArea(final int itemId) {
 		return items[itemId * 3 + 1] * items[itemId * 3 + 2];
-	}
-
-	public int getMaxJumboSize() {
-		int maxSize = 0;
-		for (int i = 0; i < jumbos.length; i++) {
-			if (i % 3 != 0 && jumbos[i] > maxSize) {
-				maxSize = jumbos[i];
-			}
-		}
-		return maxSize;
 	}
 
 	public int getJumboWidth(final int jumboId) {

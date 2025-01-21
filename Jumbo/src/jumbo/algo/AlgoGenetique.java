@@ -73,7 +73,7 @@ public class AlgoGenetique {
 			// On check l'item
 			final int itemId = itemIdsToAdd.get(i);
 			final int itemWidth = instance.getItemWidth(itemId);
-			final int itemHeight = instance.getItemHeigth(itemId);
+			final int itemHeight = instance.getItemHeight(itemId);
 			final boolean normalPossible = cutPos + itemWidth < maxWide && itemHeight < maxTall;
 			final boolean flippedPossible = cutPos + itemHeight < maxWide && itemWidth < maxTall;
 			if (!normalPossible && !flippedPossible) continue;
