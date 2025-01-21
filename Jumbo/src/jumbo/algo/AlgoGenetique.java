@@ -199,15 +199,30 @@ public class AlgoGenetique {
 	/**
 	 * Mutation
 	 * <p>
-	 * Input from {@link #smallPopulation}
+	 * Input from {@link #largePopulation}
 	 * <p>
-	 * Output to {@link #smallPopulation} as well
+	 * Output to {@link #largePopulation} as well
 	 */
 	private void mutation() {
-		// TODO Auto-generated method stub
-		for (int i = 0; i < smallPopulation.length; i++) {
-			final JumboCut individu = smallPopulation[i];
+		for (int i = 0; i < largePopulation.length; i++) {
+			final JumboCut individu = largePopulation[i];
 			exploreTreeNode(individu.getCuts());
 		}
+	}
+
+	/**
+	 * @return the best result from the {@link #largePopulation}.
+	 */
+	public JumboCut getBestResult() {
+		JumboCut best = null;
+		int bestScore = 0;
+		for (final JumboCut cut: largePopulation) {
+			final int score = instance.getJumboSize(cut.getJumboId()) - cut.computeAreaWaste(instance);
+			if (score > bestScore) {
+				best = cut;
+				bestScore = score;
+			}
+		}
+		return best;
 	}
 }
