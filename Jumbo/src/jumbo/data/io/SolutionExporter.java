@@ -1,8 +1,11 @@
 package jumbo.data.io;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import jumbo.data.Cut;
@@ -18,13 +21,16 @@ public class SolutionExporter {
 		this.solution = solution;
 	}
 
-	public void export(final File dest) {
+	public void export(final File dest) throws JSONException, FileNotFoundException {
 		final JSONObject root = new JSONObject();
 		final JSONArray opList = new JSONArray();
 		root.put("op_list", opList);
 
 		for (final JumboCut jumboCut : solution.getJumboCuts()) {
 			opList.put(exportJumboCut(jumboCut));
+		}
+		try (final PrintWriter writer = new PrintWriter(dest)) {
+			root.write(writer);
 		}
 	}
 

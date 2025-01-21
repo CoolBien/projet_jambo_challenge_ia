@@ -6,10 +6,11 @@ public class Solution {
 
 	private final Instance instance;
 
-	private List<JumboCut> jumboCuts;
+	private final List<JumboCut> jumboCuts;
 
-	public Solution(final Instance instance) {
+	public Solution(final Instance instance, final List<JumboCut> jumboCuts) {
 		this.instance = instance;
+		this.jumboCuts = jumboCuts;
 	}
 
 	public List<JumboCut> getJumboCuts() {
