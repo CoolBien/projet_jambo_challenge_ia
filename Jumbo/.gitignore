@@ -3,3 +3,6 @@
 /.project
 /.settings/
 /output_test.json
+/resources/msg.csv
+*.svg
+**/__pycache__/**
