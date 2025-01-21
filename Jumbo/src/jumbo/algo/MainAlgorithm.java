@@ -29,6 +29,6 @@ public class MainAlgorithm {
 		});
 		pool.startAndWait();
 
-		return new Solution(instance, Stream.of(algorithms).map(AlgoGenetique::getBestResult).toList());
+		return new Solution(instance, Stream.of(algorithms).map(AlgoGenetique::getBestResult).filter(e -> e != null).toList());
 	}
 }
