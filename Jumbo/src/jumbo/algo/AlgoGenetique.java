@@ -8,6 +8,7 @@ import jumbo.data.CutOrientation;
 import jumbo.data.Instance;
 import jumbo.data.JumboCut;
 import jumbo.utils.BinaryTree;
+import jumbo.utils.Utils;
 
 public class AlgoGenetique {
 
@@ -148,6 +149,7 @@ public class AlgoGenetique {
 	 * Output to {@link #smallPopulation}
 	 */
 	private void tournoi() {
+		Utils.shuffleArray(largePopulation);
 		final int[] score = new int[largePopulation.length];
 		for (int i = 0; i < largePopulation.length; i++) {
 			final JumboCut cut = largePopulation[i];
