@@ -1,6 +1,5 @@
 package jumbo.data;
 
-import java.util.Arrays;
 import java.util.Map;
 
 public class Instance {
@@ -53,18 +52,15 @@ public class Instance {
 		return items[elem * 3 + 1];
 	}
 	
-	public int getItemHeigth(int elem) {
+	public int getItemHeight(int elem) {
 		return items[elem * 3 + 2];
 	}
 	
-	public int getMaxJumboSize() {
-		int maxSize = 0;
-		for (int i = 0; i < jumbos.length; i++) {
-			if (i % 3 != 0 && jumbos[i] > maxSize) {
-				maxSize = jumbos[i];
-			}
-		}
-		return maxSize;
+	public int getJumboWidth(int elem) {
+		return jumbos[elem * 3 + 1];
 	}
-
+	
+	public int getJumboHeight(int elem) {
+		return jumbos[elem * 3 + 2];
+	}
 }
