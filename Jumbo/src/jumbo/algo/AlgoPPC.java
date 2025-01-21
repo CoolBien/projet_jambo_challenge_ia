@@ -3,6 +3,7 @@ package jumbo.algo;
 import java.util.ArrayList;
 import java.util.List;
 
+import ilog.concert.IloConstraint;
 import ilog.concert.IloCumulFunctionExpr;
 import ilog.concert.IloException;
 import ilog.concert.IloIntExpr;
@@ -32,85 +33,65 @@ public class AlgoPPC {
 			// Cumulative constraint
 			IloCumulFunctionExpr[] heightUsages = new IloCumulFunctionExpr[nbJumbos];
 			
-			IloIntVar[] jumboUsed = new IloIntVar[nbJumbos];
 			IloIntervalVar[][] jumbos = new IloIntervalVar[nbJumbos][nbItems * 2];
             for (int i = 0; i < nbJumbos; i++) {
+                heightUsages[i] = model.cumulFunctionExpr();
+                
                 for (int j = 0; j < nbItems * 2; j++) {
                     jumbos[i][j] = model.intervalVar();
+                    jumbos[i][j].setOptional();
+                    
+					// resource used in a jumbo => sum of heigth used
+					if (instance.getItemHeight((int)j / 2) > 0)
+						heightUsages[i] = model.sum(heightUsages[i], model.pulse(jumbos[i][j], instance.getItemHeight((int)j / 2)));
                     //model.add(model.presenceOf(jumbos[i][j]));
                 }
-                heightUsages[i] = model.cumulFunctionExpr();
-                jumboUsed[i] = model.intVar(0, 1);
             }
 			
-			IloIntervalVar[] items = new IloIntervalVar[nbItems * 2];
-			for (int i = 0; i < nbItems; i++) {
-				// task (duration => width of each task)
-				items[i * 2] = model.intervalVar(instance.getItemWidth(i), "Item" + i);
-				items[i * 2 + 1] = model.intervalVar(instance.getItemHeight(i), "ItemAlt" + i);
-				for (int j = 0; j < nbJumbos; j++)
-				{
-					// resource used in a jumbo => sum of heigth used
-					if (instance.getItemHeight(i) > 0)
-						heightUsages[j] = model.sum(heightUsages[j], model.pulse(items[i * 2], instance.getItemHeight(i)));
-					if (instance.getItemWidth(i) > 0)
-						heightUsages[j] = model.sum(heightUsages[j], model.pulse(items[i * 2 + 1], instance.getItemHeight(i)));
-					
-					// either item or item turned
-					//model.add(model.eq(model.presenceOf(items[i * 2]), model.not(model.presenceOf(items[i * 2 + 1]))));
-				}
-			}
-			/*
-			// add alternative task (item turned)
+			IloIntervalVar[] items = new IloIntervalVar[nbItems];
 			IloIntervalVar[] itemsAlt = new IloIntervalVar[nbItems];
 			for (int i = 0; i < nbItems; i++) {
 				// task (duration => width of each task)
-				itemsAlt[i] = model.intervalVar(instance.getItemWidth(i), "ItemAlt" + i);
-				for (int j = 0; j < nbJumbos; j++)
-				{
-					// resource used in a jumbo => sum of heigth used
-					if (instance.getItemHeight(i) > 0)
-						heightUsages[j] = model.sum(heightUsages[j], model.pulse(itemsAlt[i], instance.getItemHeight(i)));
-					// items end at most at the end of the jumbo
-					model.add(model.ifThen(model.presenceOf(itemsAlt[i]), model.eq(model.endOf(itemsAlt[i]), instance.getJumboWidth(j))));
-					// count number of jumbo used
-					model.add(model.ifThen(model.presenceOf(itemsAlt[i]), model.eq(jumboUsed[j], 1)));
-				}
+				items[i] = model.intervalVar(instance.getItemWidth(i), "Item" + i);
+				itemsAlt[i] = model.intervalVar(instance.getItemHeight(i), "ItemAlt" + i);
 			}
-			*/
+			
 			// limit height to the height of the jumbo
 			// no overlap
 			for (int j = 0; j < nbJumbos; j++)
 			{
 				model.add(model.le(heightUsages[j], instance.getJumboHeight(j)));
 				model.add(model.noOverlap(jumbos[j]));
-				for (int i = 0; i < nbItems; i++)
-				{
-					// count number of jumbo used
-					model.add(model.ifThen(model.presenceOf(jumbos[j][i * 2]), model.eq(jumboUsed[j], 1)));
-					model.add(model.ifThen(model.not(model.presenceOf(jumbos[j][i * 2])), model.eq(jumboUsed[j], 0)));
-					model.add(model.ifThen(model.presenceOf(jumbos[j][i * 2 + 1]), model.eq(jumboUsed[j], 1)));
-					model.add(model.ifThen(model.not(model.presenceOf(jumbos[j][i * 2 + 1])), model.eq(jumboUsed[j], 0)));
+				for (int i = 0; i < nbItems * 2; i++)
+				{					
 					// items end at most at the end of the jumbo
-					model.add(model.ifThen(model.presenceOf(jumbos[j][i * 2]), model.eq(model.endOf(items[i * 2]), instance.getJumboWidth(j))));
-					model.add(model.ifThen(model.presenceOf(jumbos[j][i * 2 + 1]), model.eq(model.endOf(items[i * 2 + 1]), instance.getJumboHeight(j))));
+					jumbos[j][i].setEndMax(instance.getJumboWidth(j));
 				}
 			}
 			
 			// only one jumbo for an item/itemAlt
-			for (int j = 0; j < nbItems * 2; j++)
+			for (int j = 0; j < nbItems; j++)
 			{
 				IloIntervalVar[] alternatives = new IloIntervalVar[nbJumbos];
 	            for (int i = 0; i < nbJumbos; i++) {
 	                alternatives[i] = jumbos[i][j];
 	            }
-	            //model.add(model.alternative(items[j], alternatives));
-	            //model.add(model.or(model.alternative(items[j], alternatives), model.alternative(itemsAlt[j], alternatives)));
+	            model.add(model.alternative(items[j], alternatives));
 			}
 			
 			// minimize number of jumbo used
-			IloIntExpr nbJumboUsed = model.sum(jumboUsed);
-			model.minimize(nbJumboUsed);
+			IloConstraint[] jumboUsed = new IloConstraint[nbJumbos];
+			for (int j = 0; j < nbJumbos; j++) {
+				IloConstraint[] presenceInJumbo = new IloConstraint[nbItems * 2];
+				for (int i = 0; i < nbItems * 2; i++) {
+					presenceInJumbo[i] = model.presenceOf(jumbos[j][i]);
+				}
+				jumboUsed[j] = model.or(presenceInJumbo);
+			}
+			
+			model.add(model.minimize(model.sum(jumboUsed)));
+			
+			model.setParameter("TimeLimit", 10);
 
 			// Résolution
 	        if (model.solve()) {
