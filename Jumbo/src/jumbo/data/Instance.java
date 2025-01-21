@@ -35,32 +35,40 @@ public class Instance {
 		this.jumbosIdToName = jumbosIdToName;
 		this.itemsIdToName = itemsIdToName;
 	}
-	
+
 	public int[] getJumbos() {
 		return jumbos;
 	}
-	
+
 	public int[] getItems() {
 		return items;
 	}
-	
-	public int getItemId(int elem) {
+
+	public int getItemId(final int elem) {
 		return items[elem * 3];
 	}
-	
-	public int getItemWidth(int elem) {
+
+	public int getItemWidth(final int elem) {
 		return items[elem * 3 + 1];
 	}
-	
-	public int getItemHeight(int elem) {
+
+	public int getItemHeight(final int elem) {
 		return items[elem * 3 + 2];
 	}
-	
-	public int getJumboWidth(int elem) {
-		return jumbos[elem * 3 + 1];
+
+	public int getItemArea(final int itemId) {
+		return items[itemId * 3 + 1] * items[itemId * 3 + 2];
 	}
-	
-	public int getJumboHeight(int elem) {
-		return jumbos[elem * 3 + 2];
+
+	public int getJumboWidth(final int jumboId) {
+		return jumbos[jumboId * 3 + 1];
+	}
+
+	public int getJumboHeight(final int jumboId) {
+		return jumbos[jumboId * 3 + 2];
+	}
+
+	public int getJumboSize(final int jumboId) {
+		return jumbos[jumboId * 3 + 1] * jumbos[jumboId * 3 + 2];
 	}
 }

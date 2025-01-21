@@ -10,12 +10,21 @@ Class `Solution` : // Créée à partir de l'algorithme
  - `instance` = référence vers l'instance résolue;
  - `jumboCuts` = liste de `JumboCuts`;
 
-Class `JumboCuts` : // Liste de tout les `Cut`s d'un Jumbo.
+Class `JumboCuts` : // Arbre de tous les `Cuts` d'un Jumbo.
  - `jumboId` = id du jumbo (utilisé pour l'exportation)
- - `cuts` = `[(VERTICAL, int), (HORIZONTAL, int), ...]`;    // `(VERTICAL, int)` est représenté par le record `Cut`, et l'orientation à l'intérieur par une valeur de l'énumération `CutOrientation`.
+ - `cuts` = `BinaryTree<(VERTICAL, int sizeX, int sizeY, int itemFlipCoding, int... itemIds), ...>`;  (arbre)
+   // Les items de l'arbre sont représentés par le record `Cut`, et l'orientation à l'intérieur par une valeur de l'énumération `CutOrientation` .
  - `cuttedResultSizes` = `[(int, int), (int, int), ...]`;   // (pour nous, pas dans le fichier de sortie).
  - `scraps` = `[(int, int), (int, int), ...]`;  // liste des chutes
  - `itemIds` = liste id items; // TODO
+
+Class `Cut` : // Records des attributs d'un noeud de l'arbre cuts. 
+ - `orientation` = orientation du cut; `enum CutOrientation : (HORIZONTAL, VERTICAL)`
+ - `sizeX` = longueur horizontale du sous-jumbo sur lequel on effectue la découpe; `int` 
+ - `sizeY` = hauteur verticale du sous-jumbo sur lequel on effectue la découpe; `int`
+ - `itemFlipCoding` = Chaque bits du nombre binaire correspond à un item de la liste des items présents sur ce cut. Si le bit vaut 1, on retourne de 90° l'item, et s'il vaut 0 on n'y touche pas.
+   exemple : `101001` = liste de 6 items, et on ne retourne que le 1er, le 4e et le 6e. `int`
+ - `itemIds` = Liste des ids des items présents dans cette cut. `[int, int, ..., int]`
 
 # Méthodes
 

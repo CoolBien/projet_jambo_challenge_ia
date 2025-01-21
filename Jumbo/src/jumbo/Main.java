@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import jumbo.algo.AlgoPPC;
 import jumbo.data.Instance;
-import jumbo.data.InstanceLoader;
+import jumbo.data.io.InstanceLoader;
 
 public class Main {
 

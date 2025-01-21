@@ -15,4 +15,8 @@ public class Solution {
 	public List<JumboCut> getJumboCuts() {
 		return jumboCuts;
 	}
+
+	public Instance getInstance() {
+		return instance;
+	}
 }

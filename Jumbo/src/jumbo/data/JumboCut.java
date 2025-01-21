@@ -1,16 +1,21 @@
 package jumbo.data;
 
+import jumbo.utils.BinaryTree;
+
 public class JumboCut {
 
-	private int jumboId;
+	private final int jumboId;
 
-	private final Cut[] cuts;
+	private final BinaryTree<Cut> cuts;
 
-	private int[] cuttedResultSizes;
+//	private int[] cuttedResultSizes;
+//
+//	private int[] itemIds;
+//
+//	private int[] scraps;
 
-	private int[] itemIds;
-
-	public JumboCut(final Cut[] cuts) {
+	public JumboCut(final int jumboId, final BinaryTree<Cut> cuts) {
+		this.jumboId = jumboId;
 		this.cuts = cuts;
 	}
 
@@ -18,27 +23,25 @@ public class JumboCut {
 		return jumboId;
 	}
 
-	public Cut[] getCuts() {
+	public BinaryTree<Cut> getCuts() {
 		return cuts;
 	}
 
-	public int getLeftIdOf(final int i) {
-		final int id = ((i+1) << 1) - 1;
-		if (cuts[id] != null) {
-			return id;
+	public int computeAreaWaste(final Instance instance) {
+		final int jumboSize = instance.getJumboSize(jumboId);
+		int itemSize = 0;
+
+		// Parcourir uniquement les feuilles de l'arbre pour savoir les items qui sont dedans.
+		for (final Cut c: cuts.traverseLeaves()) {
+			for (final int itemId : c.itemIds()) {
+				itemSize += instance.getItemArea(itemId);
+			}
 		}
-		return -1;
+
+		return jumboSize - itemSize;
 	}
 
-	public int getRightIdOf(final int i) {
-		final int id = ((i+1) << 1);
-		if (cuts[id] != null) {
-			return id;
-		}
-		return -1;
-	}
-
-	public int getItemIdOf(final int i) {
-		return itemIds[i];
+	public JumboCut copy() {
+		return new JumboCut(jumboId, cuts.copy());
 	}
 }
