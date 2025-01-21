@@ -1,13 +1,12 @@
 package jumbo.algo;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ilog.concert.IloConstraint;
 import ilog.concert.IloCumulFunctionExpr;
 import ilog.concert.IloException;
-import ilog.concert.IloIntExpr;
-import ilog.concert.IloIntVar;
 import ilog.concert.IloIntervalVar;
 import ilog.cp.IloCP;
 import jumbo.data.Instance;
@@ -33,10 +32,9 @@ public class AlgoPPC {
 			// Cumulative constraint
 			IloCumulFunctionExpr[] heightUsages = new IloCumulFunctionExpr[nbJumbos];
 			
-			IloIntervalVar[][] jumbos = new IloIntervalVar[nbJumbos][nbItems * 2];
+			IloIntervalVar[][] jumbos = new IloIntervalVar[nbJumbos][nbItems];
             for (int i = 0; i < nbJumbos; i++) {
                 heightUsages[i] = model.cumulFunctionExpr();
-                
                 for (int j = 0; j < nbItems * 2; j++) {
                     jumbos[i][j] = model.intervalVar();
                     jumbos[i][j].setOptional();
@@ -44,16 +42,18 @@ public class AlgoPPC {
 					// resource used in a jumbo => sum of heigth used
 					if (instance.getItemHeight((int)j / 2) > 0)
 						heightUsages[i] = model.sum(heightUsages[i], model.pulse(jumbos[i][j], instance.getItemHeight((int)j / 2)));
-                    //model.add(model.presenceOf(jumbos[i][j]));
                 }
             }
-			
+
 			IloIntervalVar[] items = new IloIntervalVar[nbItems];
-			IloIntervalVar[] itemsAlt = new IloIntervalVar[nbItems];
+			IloIntervalVar[] itemsV = new IloIntervalVar[nbItems];
+			IloIntervalVar[] itemsH = new IloIntervalVar[nbItems];
 			for (int i = 0; i < nbItems; i++) {
+				items[i] = model.intervalVar();
+				items[i].setOptional();
 				// task (duration => width of each task)
-				items[i] = model.intervalVar(instance.getItemWidth(i), "Item" + i);
-				itemsAlt[i] = model.intervalVar(instance.getItemHeight(i), "ItemAlt" + i);
+				itemsV[i] = model.intervalVar(instance.getItemWidth(i), "Item" + i);
+				itemsH[i] = model.intervalVar(instance.getItemHeight(i), "ItemAlt" + i);
 			}
 			
 			// limit height to the height of the jumbo
@@ -75,6 +75,10 @@ public class AlgoPPC {
 				IloIntervalVar[] alternatives = new IloIntervalVar[nbJumbos];
 	            for (int i = 0; i < nbJumbos; i++) {
 	                alternatives[i] = jumbos[i][j];
+	                IloIntervalVar[] turnOrNot = new IloIntervalVar[2];
+	                turnOrNot[0] = itemsV[j];
+	                turnOrNot[1] = itemsH[j];
+	                model.add(model.alternative(items[j], turnOrNot));
 	            }
 	            model.add(model.alternative(items[j], alternatives));
 			}
@@ -105,7 +109,7 @@ public class AlgoPPC {
 	                		indItemArr.add(j);
 	                }
 	                index[i] = indItemArr.stream().mapToInt(l -> l).toArray();
-	                System.out.println("Jumbo " + i + " : " + index[i]);
+	                System.out.println("Jumbo " + i + " : " + Arrays.toString(index[i]));
 	            }
 	        } else {
 	            System.out.println("Pas de solution trouvée.");
