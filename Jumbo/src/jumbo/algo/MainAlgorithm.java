@@ -23,7 +23,7 @@ public class MainAlgorithm {
 
 		// Génétique pour améliorer la solution
 		final AlgoGenetique[] algorithms = new AlgoGenetique[partitionning.length];
-		final ThreadPool pool = new ThreadPool(8, partitionning.length, id -> {
+		final ThreadPool pool = new ThreadPool(1, partitionning.length, id -> {
 			algorithms[id] = new AlgoGenetique(instance, 16, id, IntStream.of(partitionning[id]).mapToObj(i -> i).toList());
 			algorithms[id].run(42);
 		});

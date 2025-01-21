@@ -30,7 +30,7 @@ public class AlgoGenetique {
 		this.jumboId = jumboId;
 		smallPopulation = new JumboCut[size];
 		largePopulation = new JumboCut[size << 1];
-		this.itemIdsToAdd = itemIdsToAdd;
+		this.itemIdsToAdd = new ArrayList<>(itemIdsToAdd);	// Make a copy to be sure that it is a mutable list.
 	}
 
 	/**
