@@ -45,6 +45,15 @@ public class SolutionExporter {
 		// save current cut
 		final JSONObject json = new JSONObject();
 		final Cut cut = node.getItem();
+
+		// item ids:
+		final int[] itemId = cut.itemIds();
+		if (itemId.length == 1) {
+			json.put("item_id", itemId[0]);
+			return json;
+		}
+
+		// Only save those if there are no item in it:
 		json.put("dir-cut", cut.orientation().name().toLowerCase());
 		json.put("offset", cut.computePosition(solution.getInstance()));
 
@@ -58,12 +67,6 @@ public class SolutionExporter {
 		}
 		if (right != null) {
 			json.put("right", exportCutTree(jumboCut, right));
-		}
-
-		// item ids:
-		final int[] itemId = cut.itemIds();
-		if (itemId.length == 1) {
-			json.put("item_id", itemId[0]);
 		}
 
 		return json;

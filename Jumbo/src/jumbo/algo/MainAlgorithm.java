@@ -1,5 +1,7 @@
 package jumbo.algo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -29,6 +31,19 @@ public class MainAlgorithm {
 		});
 		pool.startAndWait();
 
-		return new Solution(instance, Stream.of(algorithms).map(AlgoGenetique::getBestResult).filter(e -> e != null).toList());
+		// Il faut maintenant inclure les items manquant dans les chutes de la solution.
+		// Pour cela, il faut récupérer la listes des items manquant
+		final List<Integer> allMissingItems = new ArrayList<>();
+		for (final AlgoGenetique algo: algorithms) {
+			final AlgoResult result = algo.getBestResult();
+			if (result.best() == null) {
+				continue;
+			}
+			result.best().simplify();
+			allMissingItems.addAll(result.missingItems());
+		}
+		System.out.println("Missing items: "+allMissingItems);
+
+		return new Solution(instance, Stream.of(algorithms).map(AlgoGenetique::getBestResult).filter(e -> e.best() != null).map(AlgoResult::best).toList());
 	}
 }

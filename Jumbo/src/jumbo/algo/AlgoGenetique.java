@@ -2,6 +2,7 @@ package jumbo.algo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
 
 import jumbo.data.Cut;
@@ -48,7 +49,7 @@ public class AlgoGenetique {
 		final int jumboHeight = instance.getJumboHeight(jumboId);
 
 		for (int i=0; i < largePopulation.length; i++) {
-			largePopulation[i] = new JumboCut(jumboId, initTree(jumboWidth, jumboHeight, itemIdsToAdd));
+			largePopulation[i] = new JumboCut(jumboId, initTree(jumboWidth, jumboHeight, new ArrayList<>(itemIdsToAdd)));
 		}
 	}
 
@@ -57,13 +58,15 @@ public class AlgoGenetique {
 
 		// Choisir l'orientation de coupage
 		final CutOrientation orientation;
-		final int maxTall;
-		final int maxWide;
+		final int maxTall;	// < maximum général possible pour la 2ème dimension choisie des pièces
+		final int maxWide;	// < maximum pour la somme consécutive de la première dimension choisie des pièces
 		if (Math.random() < .5) {
+			// Empilement vertical (les uns sur les autres)
 			orientation = CutOrientation.HORIZONTAL;
 			maxTall = sizeX;
 			maxWide = sizeY;
 		} else {
+			// Empilement horizontal (les uns à côté des autres)
 			orientation = CutOrientation.VERTICAL;
 			maxTall = sizeY;
 			maxWide = sizeX;
@@ -90,10 +93,10 @@ public class AlgoGenetique {
 
 			// On ajoute l'item dans le bon sens
 			if (flippedChosen) {
-				cutPos += itemWidth;
+				cutPos += itemHeight;
 				itemFlipCoding |= 1 << chosenItems.size();
 			} else {
-				cutPos += itemHeight;
+				cutPos += itemWidth;
 			}
 			chosenItems.add(itemId);
 		}
@@ -226,7 +229,7 @@ public class AlgoGenetique {
 	/**
 	 * @return the best result from the {@link #largePopulation}.
 	 */
-	public JumboCut getBestResult() {
+	public AlgoResult getBestResult() {
 		JumboCut best = null;
 		int bestScore = 0;
 		for (final JumboCut cut: largePopulation) {
@@ -236,6 +239,16 @@ public class AlgoGenetique {
 				bestScore = score;
 			}
 		}
-		return best;
+		return new AlgoResult(best, getMissingItemIds(best));
+	}
+
+	private List<Integer> getMissingItemIds(final JumboCut cut) {
+		final List<Integer> missingItems = new ArrayList<>(itemIdsToAdd);
+		if (cut != null) {
+			for (final Cut c: cut.getCuts().traverseLeaves()) {
+				missingItems.removeAll(IntStream.of(c.itemIds()).mapToObj(i -> i).toList());
+			}
+		}
+		return missingItems;
 	}
 }

@@ -44,4 +44,28 @@ public class JumboCut {
 	public JumboCut copy() {
 		return new JumboCut(jumboId, cuts.copy());
 	}
+
+	public void simplify() {
+		simplify(cuts);
+	}
+
+	private void simplify(final BinaryTree<Cut> node) {
+		// Ne pas simplifier si il y a des items
+		for (final Cut c: node.traverseLeaves()) {
+			if (c.itemIds().length > 0) {
+				return;
+			}
+		}
+
+		// Sinon recursive
+		final BinaryTree<Cut> left = node.getLeft();
+		if (left != null) {
+			simplify(left);
+		}
+
+		final BinaryTree<Cut> right = node.getRight();
+		if (right != null) {
+			simplify(right);
+		}
+	}
 }
