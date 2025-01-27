@@ -174,7 +174,7 @@ public class AlgoGenetique {
 			final int scoreB = score[i+1];
 			final double random = Math.random() * (scoreA + scoreB);
 			if (random < scoreA) {
-				// A gagne
+				// A gagnee
 				smallPopulation[i >>> 1] = largePopulation[i];
 			} else {
 				// B gagne
