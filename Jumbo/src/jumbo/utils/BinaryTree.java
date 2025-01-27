@@ -49,10 +49,9 @@ public class BinaryTree<T> {
 		private final LeavesIterator leftIter;
 		private final LeavesIterator rightIter;
 
-		@SuppressWarnings("unchecked")
 		public LeavesIterator() {
-			leftIter  = left  != null? (LeavesIterator) left.traverseLeaves(): null;
-			rightIter = right != null? (LeavesIterator) right.traverseLeaves(): null;
+			leftIter  = left  != null? (LeavesIterator) left.traverseLeaves().iterator(): null;
+			rightIter = right != null? (LeavesIterator) right.traverseLeaves().iterator(): null;
 		}
 
 		@Override

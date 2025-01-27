@@ -1,0 +1,49 @@
+{
+	"items": 
+	[ 
+		{
+			"id": 0,
+			"name": "name_0",
+			"size": 
+			{
+				"height": 1578,
+				"width": 758
+			},
+			"nb": 4
+		},
+		{
+			"id": 1,
+			"name": "name_1",
+			"size": 
+			{
+				"height": 738,
+				"width": 1550
+			},
+			"nb": 3
+		}
+	],
+	"jumbos": 
+	[
+		{
+			"id": 0,
+			"name": "jumbo_0",
+			"size": 
+			{
+				"height": 5379,
+				"width": 3703
+			},
+			"nb": 15
+		},
+		{
+			"id": 1,
+			"name": "jumbo_1",
+			"size": 
+			{
+				"height": 7667,
+				"width": 2884
+			},
+			"nb": 15
+		}
+	],
+	"cut-width":30
+}

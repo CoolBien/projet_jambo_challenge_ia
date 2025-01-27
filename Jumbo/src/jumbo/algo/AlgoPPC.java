@@ -32,53 +32,54 @@ public class AlgoPPC {
 			// Cumulative constraint
 			IloCumulFunctionExpr[] heightUsages = new IloCumulFunctionExpr[nbJumbos];
 			
+			IloIntervalVar[] items = new IloIntervalVar[nbItems];
+			for (int i = 0; i < nbItems; i++) {
+				items[i] = model.intervalVar();
+			}
+
+			IloIntervalVar[][][] itemsVH = new IloIntervalVar[nbJumbos][nbItems][2];
 			IloIntervalVar[][] jumbos = new IloIntervalVar[nbJumbos][nbItems];
             for (int i = 0; i < nbJumbos; i++) {
                 heightUsages[i] = model.cumulFunctionExpr();
-                for (int j = 0; j < nbItems * 2; j++) {
+                for (int j = 0; j < nbItems; j++) {
                     jumbos[i][j] = model.intervalVar();
                     jumbos[i][j].setOptional();
-                    
+
+    				itemsVH[i][j][0] = model.intervalVar(instance.getItemWidth(j), "Item_" + j);
+    				itemsVH[i][j][0].setOptional();
+    				itemsVH[i][j][1] = model.intervalVar(instance.getItemHeight(j), "ItemAlt_" + j);
+    				itemsVH[i][j][1].setOptional();			
+    				
 					// resource used in a jumbo => sum of heigth used
-					if (instance.getItemHeight((int)j / 2) > 0)
-						heightUsages[i] = model.sum(heightUsages[i], model.pulse(jumbos[i][j], instance.getItemHeight((int)j / 2)));
+					if (instance.getItemHeight(j) > 0) {
+						heightUsages[i] = model.sum(heightUsages[i], model.pulse(itemsVH[i][j][0], instance.getItemHeight(j)));
+						heightUsages[i] = model.sum(heightUsages[i], model.pulse(itemsVH[i][j][1], instance.getItemWidth(j)));
+					}
                 }
             }
 
-			IloIntervalVar[] items = new IloIntervalVar[nbItems];
-			IloIntervalVar[] itemsV = new IloIntervalVar[nbItems];
-			IloIntervalVar[] itemsH = new IloIntervalVar[nbItems];
-			for (int i = 0; i < nbItems; i++) {
-				items[i] = model.intervalVar();
-				items[i].setOptional();
-				// task (duration => width of each task)
-				itemsV[i] = model.intervalVar(instance.getItemWidth(i), "Item" + i);
-				itemsH[i] = model.intervalVar(instance.getItemHeight(i), "ItemAlt" + i);
-			}
-			
 			// limit height to the height of the jumbo
 			// no overlap
 			for (int j = 0; j < nbJumbos; j++)
 			{
 				model.add(model.le(heightUsages[j], instance.getJumboHeight(j)));
 				model.add(model.noOverlap(jumbos[j]));
-				for (int i = 0; i < nbItems * 2; i++)
+				for (int i = 0; i < nbItems; i++)
 				{					
 					// items end at most at the end of the jumbo
 					jumbos[j][i].setEndMax(instance.getJumboWidth(j));
 				}
 			}
 			
-			// only one jumbo for an item/itemAlt
 			for (int j = 0; j < nbItems; j++)
 			{
+    			// only one jumbo for an item/itemAlt
 				IloIntervalVar[] alternatives = new IloIntervalVar[nbJumbos];
 	            for (int i = 0; i < nbJumbos; i++) {
+					// either item or turned item
+	                model.add(model.alternative(jumbos[i][j], itemsVH[i][j]));
 	                alternatives[i] = jumbos[i][j];
-	                IloIntervalVar[] turnOrNot = new IloIntervalVar[2];
-	                turnOrNot[0] = itemsV[j];
-	                turnOrNot[1] = itemsH[j];
-	                model.add(model.alternative(items[j], turnOrNot));
+
 	            }
 	            model.add(model.alternative(items[j], alternatives));
 			}
@@ -86,8 +87,8 @@ public class AlgoPPC {
 			// minimize number of jumbo used
 			IloConstraint[] jumboUsed = new IloConstraint[nbJumbos];
 			for (int j = 0; j < nbJumbos; j++) {
-				IloConstraint[] presenceInJumbo = new IloConstraint[nbItems * 2];
-				for (int i = 0; i < nbItems * 2; i++) {
+				IloConstraint[] presenceInJumbo = new IloConstraint[nbItems];
+				for (int i = 0; i < nbItems; i++) {
 					presenceInJumbo[i] = model.presenceOf(jumbos[j][i]);
 				}
 				jumboUsed[j] = model.or(presenceInJumbo);
@@ -99,11 +100,10 @@ public class AlgoPPC {
 
 			// Résolution
 	        if (model.solve()) {
-	            System.out.println("Solution trouvée !");
-	            System.out.println("Nombre de jumbo utilisé : " + model.getObjValue());
+	            System.out.println("Nombre de jumbo utilise : " + model.getObjValue());
 	            for (int i = 0; i < nbJumbos; i++) {
 	            	List<Integer> indItemArr = new ArrayList<>();
-	                for (int j = 0; j < nbJumbos; j++)
+	                for (int j = 0; j < nbItems; j++)
 	                {
 	                	if (model.isPresent(jumbos[i][j]))
 	                		indItemArr.add(j);
@@ -112,7 +112,7 @@ public class AlgoPPC {
 	                System.out.println("Jumbo " + i + " : " + Arrays.toString(index[i]));
 	            }
 	        } else {
-	            System.out.println("Pas de solution trouvée.");
+	            System.out.println("Pas de solution trouvee.");
 	        }
 			
 		} catch (IloException e) {

@@ -1,0 +1,63 @@
+{ 
+  "items":
+  [
+    {
+      "id":0,
+      "name":"front door",
+      "size":{ "height":320,"width":320},
+      "dir":"none",
+      "nb":6
+    },
+    {
+      "id":1,
+      "name":"side board",
+      "size":{ "height":324,"width":389},
+      "dir":"vertical",
+      "nb":26
+    },
+    {
+      "id":2,
+      "name":"top board",
+      "size":{ "height":389,"width":360},
+      "dir":"vertical",
+      "nb":13
+    },
+    {
+      "id":3,
+      "name":"bottom board",
+      "size":{ "height":389,"width":360},
+      "dir":"vertical",
+      "nb":13
+    },
+    {
+      "id":4,
+      "name":"back board",
+      "size":{ "height":342,"width":342},
+      "dir":"none",
+      "nb":13
+    },
+    {
+      "id":5,
+      "name":"connecting element",
+      "size":{ "height":120,"width":360},
+      "dir":"vertical",
+      "nb":7
+    }
+  ],
+  "jumbos":
+  [
+    {
+      "id":0,
+      "name":"new birch plywood",
+      "size":{"height":2500,"width":1200},
+      "nb":2
+    },
+    {
+      "id":1,
+      "name":"small birch plywood",
+      "size":{"height":800,"width":1000},
+      "nb":4
+    }
+  ],
+  "cut-width":3
+}
