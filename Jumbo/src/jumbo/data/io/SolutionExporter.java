@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import jumbo.data.Cut;
+import jumbo.data.Instance;
 import jumbo.data.JumboCut;
 import jumbo.data.Solution;
 import jumbo.utils.BinaryTree;
@@ -43,23 +44,34 @@ public class SolutionExporter {
 
 	private JSONObject exportCutTree(final JumboCut jumboCut, final BinaryTree<Cut> node) {
 		// save current cut
+		final Instance instance = solution.getInstance();
 		final JSONObject json = new JSONObject();
 		final Cut cut = node.getItem();
-
-		// item ids:
-		final int[] itemId = cut.itemIds();
-		if (itemId.length == 1) {
-			json.put("item_id", itemId[0]);
-			return json;
-		}
-
-		// Only save those if there are no item in it:
 		json.put("dir-cut", cut.orientation().name().toLowerCase());
-		json.put("offset", cut.computePosition(solution.getInstance()));
+		json.put("offset", cut.computePosition(instance));
 
 		// get children
 		final BinaryTree<Cut> left = node.getLeft();
 		final BinaryTree<Cut> right = node.getRight();
+
+		// item ids:
+		final int[] itemId = cut.itemIds();
+		if (left == null && right == null && itemId.length > 1) {
+			System.out.println("\u001b[0;33mWARNING: Apparamment je peux me retrouver dans cette situation.\u001b[0m");
+		}
+
+		if (itemId.length == 1) {
+			final int item = itemId[0];
+			final JSONObject leftJson = new JSONObject();
+			json.put("left", leftJson);
+			leftJson.put("dir-cut", cut.orientation().other().name().toLowerCase());
+			final int offset = cut.itemFlipCoding()==0? instance.getItemHeight(item): instance.getItemWidth(item);
+			leftJson.put("offset", offset);
+			final JSONObject topJson = new JSONObject();
+			leftJson.put("left", topJson);
+			topJson.put("item_id", item);
+			return json;
+		}
 
 		// recursive
 		if (left != null) {

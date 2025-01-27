@@ -14,8 +14,8 @@ public class Main {
 	public static void main(final String[] args) throws FileNotFoundException, IOException, InterruptedException {
 		System.out.println("Hello world!");
 
-		final Instance instance = new InstanceLoader(new File("resources/0_ultra_easy_debug/instance_00.json")).parse();
-//		final Instance instance = new InstanceLoader(new File("resources/1_easy/instance_01.json")).parse();
+//		final Instance instance = new InstanceLoader(new File("resources/0_ultra_easy_debug/instance_00.json")).parse();
+		final Instance instance = new InstanceLoader(new File("resources/1_easy/instance_01.json")).parse();
 //		final Instance instance = new InstanceLoader(new File("resources/2_hard/instance_21.json")).parse();
 
 		System.out.println("Nombre d'items initial:   "+instance.getItems().length/3);
