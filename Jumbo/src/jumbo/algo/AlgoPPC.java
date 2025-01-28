@@ -7,18 +7,27 @@ import java.util.List;
 import ilog.concert.IloConstraint;
 import ilog.concert.IloCumulFunctionExpr;
 import ilog.concert.IloException;
+import ilog.concert.IloIntVar;
 import ilog.concert.IloIntervalVar;
 import ilog.cp.IloCP;
 import jumbo.data.Instance;
 
 public class AlgoPPC {
 	private final Instance instance;
+	private final int timeSolve;
+	private final double lossPercentage;
 
-	public AlgoPPC(final Instance instance) {
+	public AlgoPPC(final Instance instance, final int timeSolve, final double lossPercentage) {
 		this.instance = instance;
+		this.timeSolve = timeSolve;
+		this.lossPercentage = lossPercentage;
 	}
-
-	public int[][] partitionning() {
+	
+	/**
+	 * Return the partitioning of the items in the jumbos (without guillotine cut)
+	 * @return list of items index in each jumbo
+	 */
+	public int[][] partitioning() {
 		int nbItems = instance.getItems().length / 3;
 		int nbJumbos = instance.getJumbos().length / 3;
 		
@@ -84,6 +93,18 @@ public class AlgoPPC {
 	            model.add(model.alternative(items[j], alternatives));
 			}
 			
+			// limit the optimization (take into account that adding guillotine cut constraint will take more space)
+			IloIntVar[][] spaceInJumbo = new IloIntVar[nbJumbos][nbItems];
+			for (int j = 0; j < nbJumbos; j++) {
+				for (int i = 0; i < items.length; i++) {
+					spaceInJumbo[j][i] = model.intVar(0, IloCP.IntMax);
+					model.add(model.eq(model.presenceOf(jumbos[j][i]), model.eq(spaceInJumbo[j][i], instance.getItemWidth(i) * instance.getItemHeight(i))));
+					model.add(model.eq(model.not(model.presenceOf(jumbos[j][i])), model.eq(spaceInJumbo[j][i], 0)));
+				}
+				
+				//model.add(model.ge(model.div(model.diff(instance.getJumboWidth(j) * instance.getJumboHeight(j), model.sum(spaceInJumbo[j])), instance.getJumboWidth(j) * instance.getJumboHeight(j)), lossPercentage));
+			}
+			
 			// minimize number of jumbo used
 			IloConstraint[] jumboUsed = new IloConstraint[nbJumbos];
 			for (int j = 0; j < nbJumbos; j++) {
@@ -96,7 +117,8 @@ public class AlgoPPC {
 			
 			model.add(model.minimize(model.sum(jumboUsed)));
 			
-			model.setParameter("TimeLimit", 10);
+			model.setParameter("TimeLimit", timeSolve);
+			model.setParameter(IloCP.IntParam.DefaultInferenceLevel, IloCP.ParameterValues.Medium);
 
 			// Résolution
 	        if (model.solve()) {
@@ -190,13 +212,13 @@ public class AlgoPPC {
 			}
 			
 			// maximize number space used in the first jumbo
-			IloConstraint[] presenceInJumbo = new IloConstraint[items.length];
-			for (int i = 0; i < items.length; i++) {
-				presenceInJumbo[i] = model.presenceOf(jumbos[1][i]);
-				presenceInJumbo[i] = model.ifThen(model.presenceOf(jumbos[1][i]), model.eq(presenceInJumbo[i], model.prod(presenceInJumbo[i], instance.getItemHeight(items[i]))));
+			IloConstraint[] spaceInJumbo = new IloConstraint[items.length];
+			for (int i = 0; i < itemsModel.length; i++) {
+				spaceInJumbo[i] = model.eq(model.presenceOf(jumbos[0][i]), model.eq(spaceInJumbo[i], itemsModel[i].getSizeMax() * itemsModel[i].getLengthMax()));
+				spaceInJumbo[i] = model.eq(model.not(model.presenceOf(jumbos[0][i])), model.eq(spaceInJumbo[i], 0));
 			}
 			
-			model.add(model.minimize(model.sum(presenceInJumbo)));
+			model.add(model.minimize(model.sum(spaceInJumbo)));
 			
 			model.setParameter("TimeLimit", 10);
 

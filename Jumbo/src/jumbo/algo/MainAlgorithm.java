@@ -20,13 +20,17 @@ public class MainAlgorithm {
 	public Solution run() throws InterruptedException {
 
 		// PPC pour récupérer partitioning:
-		final AlgoPPC ppc = new AlgoPPC(instance);
-		final int[][] partitionning = ppc.partitionning();
-
+		final AlgoPPC ppc = new AlgoPPC(instance, 60, 0.1);
+		final int[][] partitioning = ppc.partitioning();
+		if (partitioning[0] == null)
+		{
+			return null;
+		}
+		
 		// Génétique pour améliorer la solution
-		final AlgoGenetique[] algorithms = new AlgoGenetique[partitionning.length];
-		final ThreadPool pool = new ThreadPool(32, partitionning.length, id -> {
-			algorithms[id] = new AlgoGenetique(instance, 16, id, IntStream.of(partitionning[id]).mapToObj(i -> i).toList());
+		final AlgoGenetique[] algorithms = new AlgoGenetique[partitioning.length];
+		final ThreadPool pool = new ThreadPool(32, partitioning.length, id -> {
+			algorithms[id] = new AlgoGenetique(instance, 16, id, IntStream.of(partitioning[id]).mapToObj(i -> i).toList());
 			algorithms[id].run(42);
 		});
 		pool.startAndWait();
