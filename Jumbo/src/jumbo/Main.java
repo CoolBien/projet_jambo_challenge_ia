@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import jumbo.algo.MainAlgorithm;
 import jumbo.data.Instance;
+import jumbo.data.Solution;
 import jumbo.data.io.InstanceLoader;
 import jumbo.data.io.SolutionExporter;
 
@@ -24,7 +25,10 @@ public class Main {
 
 		System.out.println(instance);
 
-		new SolutionExporter(new MainAlgorithm(instance).run()).export(new File("output_test.json"));
+		Solution solution = new MainAlgorithm(instance).run();
+		if (solution != null) {
+			new SolutionExporter(solution).export(new File("output_test.json"));
+		}
 		System.out.println("Done");
 	}
 }
