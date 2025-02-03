@@ -104,8 +104,8 @@ public class AlgoGenetique {
 		// On construit le nœud de l'arbre
 		final BinaryTree<Cut> node = new BinaryTree<>(new Cut(orientation, sizeX, sizeY, itemFlipCoding, chosenItems.stream().mapToInt(i -> i).toArray()));
 
-		if (chosenItems.size() == 1) {
-			itemIdsToAdd.remove(chosenItems.get(0));
+		if (chosenItems.size() >= 1 && chosenItems.size() <= /*Math.random()*5*/+1) {
+			itemIdsToAdd.removeAll(chosenItems);
 			return node;
 		}
 		if (chosenItems.isEmpty()) {

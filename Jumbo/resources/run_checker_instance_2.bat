@@ -1,0 +1,1 @@
+two-dimensional-cutting-stock-checker-main\check_solution.py 2_hard\instance_21.json ..\output_test.json

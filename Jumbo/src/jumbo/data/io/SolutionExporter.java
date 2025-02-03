@@ -55,21 +55,81 @@ public class SolutionExporter {
 		final BinaryTree<Cut> right = node.getRight();
 
 		// item ids:
-		final int[] itemId = cut.itemIds();
-		if (left == null && right == null && itemId.length > 1) {
-			System.out.println("\u001b[0;33mWARNING: Apparamment je peux me retrouver dans cette situation.\u001b[0m");
-		}
-
-		if (itemId.length == 1) {
-			final int item = itemId[0];
+		final int[] itemIds = cut.itemIds();
+		if (left == null && right == null && itemIds.length > 1) {
+			System.out.println("\u001b[0;33mWARNING: Situation encore expérimentale, en test.\u001b[0m");
 			final JSONObject leftJson = new JSONObject();
 			json.put("left", leftJson);
 			leftJson.put("dir-cut", cut.orientation().other().name().toLowerCase());
-			final int offset = cut.itemFlipCoding()==0? instance.getItemHeight(item): instance.getItemWidth(item);
+
+			// Récursif itératif:
+			int maxTall = 0;
+			JSONObject subJson = new JSONObject();
+			leftJson.put("left", subJson);
+
+			// Pour tout les items à placer:
+			for (int i = 0; i < itemIds.length; i++) {
+				final int item = itemIds[i];
+
+				// Booléen indicateur de si l'item a été tourné:
+				final boolean flipped = (cut.itemFlipCoding()&(1<<i))==0;
+
+				// Infos de base sur l'item non flip:
+				final int tall = instance.getItemHeight(item);
+				final int wide = instance.getItemWidth(item);
+
+				// Obtention de la position de l'offset suivant le flipping ou non de l'item:
+				final int offset = flipped? tall: wide;
+				final int otherSize = flipped? wide: tall;
+				if (otherSize > maxTall) {
+					maxTall = otherSize;
+				}
+
+				// On crée un JSon pour l'item
+				final JSONObject leftItemTopJson = new JSONObject();
+				leftItemTopJson.put("item_id", instance.getItemId(item));
+
+				// L'item est ajouté à gauche, et en haut de sa gauche
+				final JSONObject leftItemJson = new JSONObject();
+				leftItemJson.put("dir-cut", cut.orientation().other().name().toLowerCase());
+				leftItemJson.put("offset", otherSize);
+				leftItemJson.put("left", leftItemTopJson);
+
+				// Le cut est toujours le même:
+				subJson.put("left", leftItemJson);
+				subJson.put("dir-cut", cut.orientation().name().toLowerCase());
+				subJson.put("offset", offset);
+
+				// Le dernier item n'a pas de droite:
+				if (i == itemIds.length - 1) {
+					break;
+				}
+
+				// Et a droite on a un sous-json:
+				final JSONObject newSubJson = new JSONObject();
+				subJson.put("right", newSubJson);
+				subJson = newSubJson;
+			}
+
+			// Finalisation:
+			leftJson.put("offset", maxTall);
+			return json;
+		}
+
+		if (itemIds.length == 1) {
+			final int item = itemIds[0];
+			final JSONObject leftJson = new JSONObject();
+			json.put("left", leftJson);
+			leftJson.put("dir-cut", cut.orientation().other().name().toLowerCase());
+
+			final int offset = cut.itemFlipCoding()==0?
+				instance.getItemHeight(item):
+				instance.getItemWidth(item);
+
 			leftJson.put("offset", offset);
 			final JSONObject topJson = new JSONObject();
 			leftJson.put("left", topJson);
-			topJson.put("item_id", item);
+			topJson.put("item_id", instance.getItemId(item));
 			return json;
 		}
 
