@@ -1,5 +1,8 @@
 package jumbo.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jumbo.utils.BinaryTree;
 
 public class JumboCut {
@@ -45,27 +48,39 @@ public class JumboCut {
 		return new JumboCut(jumboId, cuts.copy());
 	}
 
-	public void simplify() {
-		simplify(cuts);
+	public JumboCut copy(final int jumboId) {
+		return new JumboCut(jumboId, cuts.copy());
 	}
 
-	private void simplify(final BinaryTree<Cut> node) {
-		// Ne pas simplifier si il y a des items
-		for (final Cut c: node.traverseLeaves()) {
-			if (c.itemIds().length > 0) {
-				return;
+	public List<WastePart> simplify() {
+		return simplify(cuts, 0, 0);
+	}
+
+	private List<WastePart> simplify(final BinaryTree<Cut> node, final int positionCoding, final int n) {
+
+		// Si on est une feuille:
+		if (node.isLeave()) {
+			if (node.getItem().itemIds().length > 0) {
+				return List.of();
 			}
+			return List.of(WastePart.from(node.getItem(), positionCoding, n));
 		}
 
 		// Sinon recursive
 		final BinaryTree<Cut> left = node.getLeft();
-		if (left != null) {
-			simplify(left);
-		}
-
 		final BinaryTree<Cut> right = node.getRight();
-		if (right != null) {
-			simplify(right);
-		}
+
+		final List<WastePart> leftWaste = simplify(left, positionCoding << 1, n+1);
+		final List<WastePart> rightWaste = simplify(right, (positionCoding << 1) | 1, n+1);
+
+//		// On peut les fusionner ici:
+//		if (leftWaste.size() == 1 && rightWaste.size() == 1) {
+//			return List.of(leftWaste.get(0).combinedWith(rightWaste.get(0)));
+//		}
+
+		// Sinon, on renvoie les zones indépendamment:
+		final List<WastePart> waste = new ArrayList<>(leftWaste);
+		waste.addAll(rightWaste);
+		return waste;
 	}
 }

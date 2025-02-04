@@ -25,8 +25,9 @@ public class Main {
 
 		System.out.println(instance);
 
-		Solution solution = new MainAlgorithm(instance).run();
+		final Solution solution = new MainAlgorithm(instance).run();
 		if (solution != null) {
+			System.out.println("Exporting");
 			new SolutionExporter(solution).export(new File("output_test.json"));
 		}
 		System.out.println("Done");

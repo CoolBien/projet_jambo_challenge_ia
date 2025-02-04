@@ -95,4 +95,8 @@ public class BinaryTree<T> {
 		final BinaryTree<T> rightCopy = right != null? right.copy(): null;
 		return new BinaryTree<>(item, leftCopy, rightCopy);
 	}
+
+	public boolean isLeave() {
+		return left == null && right == null;
+	}
 }

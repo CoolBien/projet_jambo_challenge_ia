@@ -30,6 +30,8 @@ public class AlgoGenetique {
 
 	private final boolean isEmpty;
 
+	private int newJumboId;
+
 	public AlgoGenetique(final Instance instance, final int size, final int jumboId, final List<Integer> itemIdsToAdd) {
 		this.instance = instance;
 		this.jumboId = jumboId;
@@ -37,6 +39,7 @@ public class AlgoGenetique {
 		largePopulation = new JumboCut[size << 1];
 		this.itemIdsToAdd = new ArrayList<>(itemIdsToAdd);	// Make a copy to be sure that it is a mutable list.
 		isEmpty = itemIdsToAdd.isEmpty();
+		newJumboId = jumboId;
 	}
 
 	/**
@@ -239,6 +242,9 @@ public class AlgoGenetique {
 				bestScore = score;
 			}
 		}
+		if (best != null) {
+			best = best.copy(jumboId);
+		}
 		return new AlgoResult(best, getMissingItemIds(best));
 	}
 
@@ -250,5 +256,13 @@ public class AlgoGenetique {
 			}
 		}
 		return missingItems;
+	}
+
+	public int getJumboId() {
+		return jumboId;
+	}
+
+	public void setJumboId(final int indexInOriginal) {
+		newJumboId = indexInOriginal;
 	}
 }

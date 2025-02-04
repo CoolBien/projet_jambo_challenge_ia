@@ -2,6 +2,8 @@ package jumbo.data;
 
 import java.util.Map;
 
+import jumbo.algo.AlgoGenetique;
+
 public class Instance {
 
 	/**
@@ -79,5 +81,10 @@ public class Instance {
 
 	public int getJumboSize(final int jumboId) {
 		return jumbos[jumboId * 3 + 1] * jumbos[jumboId * 3 + 2];
+	}
+
+	public void addItems(final AlgoGenetique[] algorithms2, final WastePartInstance wastePartInstance) {
+		// TODO Auto-generated method stub
+
 	}
 }
