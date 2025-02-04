@@ -30,6 +30,7 @@ public class AlgoGenetique {
 
 	private final boolean isEmpty;
 
+	@SuppressWarnings("unused")
 	private int newJumboId;
 
 	public AlgoGenetique(final Instance instance, final int size, final int jumboId, final List<Integer> itemIdsToAdd) {

@@ -19,11 +19,13 @@ public class Instance {
 	/**
 	 * Map l'id d'un jumbo vers son nom.
 	 */
+	@SuppressWarnings("unused")
 	private final Map<Integer, String> jumbosIdToName;
 
 	/**
 	 * Map l'id d'un item vers son nom.
 	 */
+	@SuppressWarnings("unused")
 	private final Map<Integer, String> itemsIdToName;
 
 	/**

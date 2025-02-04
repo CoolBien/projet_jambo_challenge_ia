@@ -6,6 +6,7 @@ import java.util.Map;
 
 public class WastePartInstance extends Instance {
 
+	@SuppressWarnings("unused")
 	private final Map<Integer, JumboPath> jumboIdToPath;
 
 	public WastePartInstance(final int[] jumbos, final int[] items, final Map<Integer, JumboPath> jumboIdToPath) {
