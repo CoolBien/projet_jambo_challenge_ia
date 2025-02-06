@@ -68,7 +68,7 @@ public class AlgoPPC {
                 }
             }
 
-			// limit height to the height of the jumbo
+			// limit to the height of the jumbo
 			// no overlap
 			for (int j = 0; j < nbJumbos; j++)
 			{
@@ -139,7 +139,7 @@ public class AlgoPPC {
 	        }
 
 		} catch (final IloException e) {
-			System.err.println("Erreur partitionning avec Cplex : ");
+			System.err.println("Erreur de partitionning avec Cplex : ");
 			e.printStackTrace();
 		}
 
@@ -147,7 +147,7 @@ public class AlgoPPC {
 	}
 
 	/**
-	 * Return the items that fit in the bloc (without guillotine cut)
+	 * Returns the items that fit in the bloc (without guillotine cut)
 	 * @param items to try
 	 * @param widthBloc
 	 * @param heightBloc

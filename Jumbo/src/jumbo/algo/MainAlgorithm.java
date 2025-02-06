@@ -36,7 +36,7 @@ public class MainAlgorithm {
 		pool.startAndWait();
 
 		// Il faut maintenant inclure les items manquant dans les chutes de la solution.
-		// Pour cela, il faut récupérer la listes des items manquant
+		// Pour cela, il faut récupérer la liste des items manquants
 		final List<Integer> allMissingItems = new ArrayList<>();
 		final List<WastePart> allWasteParts = new ArrayList<>();
 		final List<Integer> emptyJumbos = new ArrayList<>();
@@ -76,7 +76,7 @@ public class MainAlgorithm {
 			final AlgoPPC ppc2 = new AlgoPPC(inst, 10, 0.5);
 			final int[][] partitioning2 = ppc2.partitioning();
 			if (partitioning2 == null || partitioning2.length == 0 || partitioning2[0] == null) {
-				System.err.println("ça loge pas");
+				System.err.println("Problème pour loger");
 			} else {
 				// Génétique pour améliorer la solution
 				final AlgoGenetique[] algorithms2 = new AlgoGenetique[partitioning2.length];
