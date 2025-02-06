@@ -137,7 +137,7 @@ public class AlgoGenetique {
 		}
 
 		for (int i=0; i<n; i++) {
-			System.out.println("THREAD "+jumboId+" ITERATION "+(i+1)+"/"+n);
+//			System.out.println("THREAD "+jumboId+" ITERATION "+(i+1)+"/"+n);
 			tournoi();
 			parthenogenesis();
 			mutation();
