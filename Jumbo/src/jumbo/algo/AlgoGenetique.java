@@ -132,7 +132,7 @@ public class AlgoGenetique {
 		initPopulation();
 
 		if (isEmpty) {
-			System.out.println("THREAD "+jumboId+" DONE (EMPTY)");
+//			System.out.println("THREAD "+jumboId+" DONE (EMPTY)");
 			return;
 		}
 
@@ -142,7 +142,7 @@ public class AlgoGenetique {
 			parthenogenesis();
 			mutation();
 		}
-		System.out.println("THREAD "+jumboId+" DONE");
+//		System.out.println("THREAD "+jumboId+" DONE");
 	}
 
 	/**

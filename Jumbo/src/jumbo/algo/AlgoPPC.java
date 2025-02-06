@@ -132,7 +132,9 @@ public class AlgoPPC {
 	                		indItemArr.add(j);
 	                }
 	                index[i] = indItemArr.stream().mapToInt(l -> l).toArray();
-	                System.out.println("Jumbo " + i + " : " + Arrays.toString(index[i]));
+	                if (index[i].length > 0) {
+						System.out.println("Jumbo " + i + " : " + Arrays.toString(index[i]));
+					}
 	            }
 	        } else {
 	            System.out.println("Pas de solution trouvee.");
