@@ -13,6 +13,7 @@ import jumbo.data.io.SolutionExporter;
 public class Main {
 
 	public static void main(final String[] args) throws FileNotFoundException, IOException, InterruptedException {
+		final long startMillis = System.currentTimeMillis();
 		try {
 			System.out.println("Hello world!");
 
@@ -30,11 +31,13 @@ public class Main {
 			final Solution solution = new MainAlgorithm(instance).run();
 			if (solution != null) {
 				System.out.println("Exporting");
-				new SolutionExporter(solution).export(new File("output_test.json"));
+				new SolutionExporter(solution).export(new File(args[1]));
 			}
 			System.out.println("Done");
 		} catch (final Exception e) {
 			e.printStackTrace();
+		} finally {
+			System.out.println("Took: "+(System.currentTimeMillis() - startMillis) + " ms");
 		}
 	}
 }
